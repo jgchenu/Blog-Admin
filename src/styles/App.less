@@ -1,42 +1,52 @@
 @import "../styles/vars.less";
+.loginBg {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+}
+
 .container {
-  min-height: 100vh;
-  background: #fff;
-  .left {
-    padding-top: 20px;
-    border-radius: 20px;
-    border: 1px solid @borderColor;
-    box-shadow: 0 0 2px #eeeeee;
-    margin: 20px 0px 20px 20px;
-    height: 400px;
-  }
-  .right {
-    flex: 20;
-    margin: 20px;
-    border-radius: 20px 20px 0 0;
-    box-shadow: 0 0 4px #bbbbbb;
-    background-color: #fff;
+    min-height: 100vh;
+    background-color: transparent;
+    .left {
+        padding-top: 20px;
+        border-radius: 20px;
+        border: 1px solid @borderColor;
+        box-shadow: 0 0 2px #eeeeee;
+        margin: 20px 0px 20px 20px;
+        height: 400px;
+    }
+    .right {
+        flex: 20;
+        margin: 20px;
+        border-radius: 20px 20px 0 0;
+        box-shadow: 0 0 4px #bbbbbb;
+        background-color: transparent;
+        
+        .content {
+            padding: 20px;
+            background-color: #fff;
+        }
+        .mHeader {
+            display: none;
+            margin-bottom: 0.6rem;
+            background-color: rgb(0, 21, 41);
+            border-bottom: 2px solid @borderColor;
+        }
+    }
     .content {
-      padding: 20px;
-      background: #fff;
+        .ant-back-top-inner {
+            height: 40px;
+            width: 40px;
+            line-height: 40px;
+            border-radius: 50%;
+            background-color: @primary  !important;
+            color: #fff;
+            text-align: center;
+            font-size: 20px;
+        }
     }
-    .mHeader {
-      display: none;
-      margin-bottom: 0.6rem;
-      background-color: rgb(0, 21, 41);
-      border-bottom: 2px solid @borderColor;
-    }
-  }
-  .content {
-    .ant-back-top-inner {
-      height: 40px;
-      width: 40px;
-      line-height: 40px;
-      border-radius: 50%;
-      background-color: @primary !important;
-      color: #fff;
-      text-align: center;
-      font-size: 20px;
-    }
-  }
 }

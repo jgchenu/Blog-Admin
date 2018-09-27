@@ -1,12 +1,9 @@
 import React from "react";
+import "./index.less";
 class Home extends React.Component {
   state = {};
   render() {
-    return (
-      <div>
-          欢迎您，傻逼
-      </div>
-    );
+    return <div className="adminHome">喜欢我就说嘛</div>;
   }
 }
 
