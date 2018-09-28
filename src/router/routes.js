@@ -6,12 +6,20 @@ export default [{
     {
         path: "/admin/article",
         title: "文章",
-        iconType: 'hourglass'
-    },
-    {
-        path: "/admin/tags",
-        title: "标签",
-        iconType: 'tags'
+        iconType: 'hourglass',
+        children: [{
+            path: "/admin/article",
+            title: "所有文章",
+            iconType: 'hourglass',
+        }, {
+            path: "/admin/writeArticle",
+            title: "写文章",
+            iconType: 'hourglass',
+        }, {
+            path: "/admin/tags",
+            title: "标签",
+            iconType: 'tags',
+        }]
     },
     {
         path: '/admin/comment',
@@ -30,5 +38,14 @@ export default [{
     }, {
         path: '/admin/detail',
         title: '详情'
+    },
+    {
+        path: "/admin/writeArticle",
+        title: "写文章",
+        iconType: 'hourglass',
+    }, {
+        path: "/admin/tags",
+        title: "标签",
+        iconType: 'tags',
     }
 ]

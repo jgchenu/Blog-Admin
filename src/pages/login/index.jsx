@@ -1,6 +1,6 @@
 import React from "react";
 import "./index.less";
-import { Form, Icon, Input, Button, Checkbox } from "antd";
+import { Form, Icon, Input, Button } from "antd";
 const bgImage = "http://test.jgchen.xin/static/blog/2.jpg";
 const FormItem = Form.Item;
 class Login extends React.Component {

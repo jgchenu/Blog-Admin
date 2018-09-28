@@ -2,6 +2,8 @@ import React from "react";
 import { Router, Route, Switch, Redirect } from "react-router-dom";
 import App from "@/App.jsx";
 import Article from "@/pages/article/index";
+import WriteArticle from "@/pages/writeArticle/index";
+
 import Tags from "@/pages/tags/index";
 import Comment from "@/pages/comment/index";
 import User from "@/pages/user/index";
@@ -24,6 +26,8 @@ export default class MyRouter extends React.Component {
                   <Route path="/admin/home" component={Home} />
                   <Route path="/admin/tags" component={Tags} />
                   <Route path="/admin/article" component={Article} />
+                  <Route path="/admin/writeArticle" component={WriteArticle} />
+
                   <Route path="/admin/detail/:id" component={Detail} />
                   <Route path="/admin/comment" component={Comment} />
                   <Route path="/admin/messageBoard" component={MessageBoard} />
@@ -34,7 +38,7 @@ export default class MyRouter extends React.Component {
               </App>
             )}
           />
-          <Route path='/login' component={Login}></Route>
+          <Route path="/login" component={Login} />
         </Switch>
       </Router>
     );

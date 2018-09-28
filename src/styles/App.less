@@ -9,24 +9,26 @@
 }
 
 .container {
+    background: repeat center/100% url('http://test.jgchen.xin/static/blog/2.jpg') ;
     min-height: 100vh;
     background-color: transparent;
     .left {
+        opacity: .9;
         padding-top: 20px;
         border-radius: 20px;
         border: 1px solid @borderColor;
         box-shadow: 0 0 2px #eeeeee;
         margin: 20px 0px 20px 20px;
-        height: 400px;
+        height:440px;
     }
     .right {
+        opacity: .9;
         flex: 20;
         margin: 20px;
         border-radius: 20px 20px 0 0;
         box-shadow: 0 0 4px #bbbbbb;
         background-color: transparent;
-        
-        .content {
+        .appContent {
             padding: 20px;
             background-color: #fff;
         }
@@ -37,7 +39,7 @@
             border-bottom: 2px solid @borderColor;
         }
     }
-    .content {
+    .appContent {
         .ant-back-top-inner {
             height: 40px;
             width: 40px;

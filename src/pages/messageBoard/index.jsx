@@ -27,7 +27,7 @@ class Archive extends React.Component {
   clickHandle() {
     alert(this.state.editorContent);
   }
-  componentDidMount() {
+  initEdit = () => {
     const elem = this.refs.editorElem;
     const editor = new E(elem);
     // 使用 onchange 函数监听内容的变化，并实时更新到 state 中
@@ -37,6 +37,10 @@ class Archive extends React.Component {
       });
     };
     editor.create();
+  };
+
+  componentDidMount() {
+    this.initEdit();
   }
   render() {
     return (
