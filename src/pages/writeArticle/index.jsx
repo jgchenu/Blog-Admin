@@ -1,16 +1,18 @@
 import React from "react";
 import { Input, Button, Tag, Tooltip, Icon } from "antd";
+import api from "@/api.js";
 import E from "wangeditor";
 import "./index.less";
+const { article } = api;
 class WriteArticle extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
       editorContent: "",
-      tags: ["Unremovable", "Tag 2", "Tag 3"],
+      tags: ["我家银", "傻银", "银宝宝"],
       inputVisible: false,
       inputValue: "",
-      titleInputValue: ""
+      title: ""
     };
   }
   handleClose = removedTag => {
@@ -27,7 +29,7 @@ class WriteArticle extends React.Component {
     this.setState({ inputValue: e.target.value });
   };
   handleTitleInput = e => {
-    this.setState({ titleInputValue: e.target.value });
+    this.setState({ title: e.target.value });
   };
   handleInputConfirm = () => {
     const state = this.state;
@@ -44,8 +46,18 @@ class WriteArticle extends React.Component {
     });
   };
   saveInputRef = input => (this.input = input);
-  clickHandle() {
-    alert(this.state.editorContent);
+  handleSubmit=()=> {
+    this.$axios({
+      url: article,
+      method: "post",
+      data: {
+        content: this.state.editorContent,
+        title: this.state.title,
+        tags: this.state.tags
+      }
+    }).then(res => {
+      console.log(res);
+    });
   }
   initEdit() {
     const elem = this.refs.editorElem;
@@ -62,7 +74,7 @@ class WriteArticle extends React.Component {
     this.initEdit();
   }
   render() {
-    const { tags, inputVisible, inputValue,titleInputValue } = this.state;
+    const { tags, inputVisible, inputValue, title } = this.state;
     return (
       <div className="writeArticle">
         <div className="header">
@@ -71,7 +83,7 @@ class WriteArticle extends React.Component {
             size="large"
             placeholder="在此输入标题"
             onChange={this.handleTitleInput}
-            value={titleInputValue}
+            value={title}
           />
         </div>
         <div className="content">
@@ -115,18 +127,13 @@ class WriteArticle extends React.Component {
               onClick={this.showInput}
               style={{ background: "#fff", borderStyle: "dashed" }}
             >
-              <Icon type="plus" /> New Tag
+              <Icon type="plus" /> 添加新标签
             </Tag>
           )}
         </div>
         <div className="button">
-          <Button
-            type="primary"
-            onClick={() => {
-              this.clickHandle();
-            }}
-          >
-            获取内容
+          <Button type="primary" onClick={this.handleSubmit}>
+            发布
           </Button>
         </div>
       </div>

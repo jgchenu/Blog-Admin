@@ -1,21 +1,43 @@
 import React from "react";
 import MyTag from "@/components/myTag";
-import api from "@/mockApi/homeList";
 import "./index.less";
 import { Card, Input, Button } from "antd";
+import api from "@/api";
+const { article } = api;
 const { TextArea } = Input;
+
 class Detail extends React.Component {
-  state = {
-    indexList: api
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      indexList: { content: { value: "" } },
+      id: this.props.match.params.id
+    };
+  }
+
+  componentWillMount() {
+    this.$axios({
+      method: "get",
+      url: `${article}/${this.state.id}`
+    }).then(res => {
+      console.log(res.data.data);
+      this.setState({
+        indexList: res.data.data
+      });
+    });
+  }
   render() {
-    const id = this.props.match.params.id;
+    let content =
+      this.state.indexList.content && this.state.indexList.content.value;
     return (
       <div id="myDetail">
-        <h2 className="title">{this.state.indexList[id].title}</h2>
-        <div className="content">{this.state.indexList[id].content}</div>
+        <h2 className="title">{this.state.indexList.title}</h2>
+        <div
+          className="content"
+          dangerouslySetInnerHTML={{ __html: content }}
+        />
         <div className="tags">
-          <MyTag tags={this.state.indexList[id].tags} />
+          <MyTag tags={this.state.indexList.tags} />
         </div>
         <div className="comment">
           <Card title="评论" bordered={true} style={{ width: "100%" }}>

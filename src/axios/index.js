@@ -1,17 +1,16 @@
 import axios from 'axios'
-import qs from 'qs'
 const instance = axios.create({
-    baseURL: process.env.NODE_ENV === 'development' ? '/' : '/',
+    baseURL: process.env.NODE_ENV === 'development' ? 'http://localhost:8000' : '/',
     timeout: 1000,
     headers: {
-        'Content-Type': 'application/x-www-form-urlencoded;'
+        'Content-Type': 'application/json;charset=UTF-8'
     }
 });
 instance.interceptors.request.use((config) => {
-    if (config.method === 'post') {
-        //如果是post请求则进行序列化处理
-        config.data = qs.stringify(config.data);
-    }
+    // if (config.method === 'post') {
+    //     //如果是post请求则进行序列化处理
+    //     config.data = qs.stringify(config.data);
+    // }
     return config;
 }, (error) => {
     return Promise.reject(error);

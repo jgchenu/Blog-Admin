@@ -1,6 +1,6 @@
 import React from "react";
-import { Tag } from "antd";
-import './index.less'
+import { Tag, Badge } from "antd";
+import "./index.less";
 class MyTag extends React.Component {
   tagColors = [
     "magenta",
@@ -15,11 +15,33 @@ class MyTag extends React.Component {
     "geekblue",
     "purple"
   ];
+  static defaultProps = {
+    tags: []
+  };
   renderTags = tags =>
     tags.map((item, index) => (
-      <Tag color={this.tagColors[index]} key={index}>
-        {item.tagName}
-      </Tag>
+      <Badge
+        count={item.count || 0}
+        style={{
+          backgroundColor: "#fff",
+          color: "#999",
+          boxShadow: "0 0 0 1px #d9d9d9 inset"
+        }}
+        className="singleTag"
+      >
+        <Tag
+          color={this.tagColors[index]}
+          key={index}
+          style={{
+            height: `${(item.count + 1) * 20}px`,
+            lineHeight: `${(item.count + 1) * 20}px`,
+            fontSize: `${(item.count + 1) * 8}px`,
+            borderRadius: '8%'
+          }}
+        >
+          {item.name}
+        </Tag>
+      </Badge>
     ));
 
   render() {

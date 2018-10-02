@@ -8,15 +8,26 @@ export default class MyCard extends React.Component {
     super();
     this.goDetail = this.goDetail.bind(this);
   }
+  static defaultProps = {
+    list: { content: { value: "" } }
+  };
   goDetail(id) {
     history.push(`/admin/detail/${id}`);
   }
+
   render() {
     let list = this.props.list;
+    let content = list.content ? list.content.value : "";
+    content = content.length > 30 ? content.substring(0, 100) : content;
     return (
-      <div className="myCard" onClick={this.goDetail.bind(this,list.id)}>
+      <div className="myCard" onClick={this.goDetail.bind(this, list.id)}>
         <Card title={list.title} style={{ width: "100%" }}>
-          <div className="content">{list.title}</div>
+          <div
+            className="content"
+            dangerouslySetInnerHTML={{ __html: content }}
+          >
+            {}
+          </div>
           <footer className="cardFooter">
             <div className="tags">
               <MyTag tags={list.tags} />

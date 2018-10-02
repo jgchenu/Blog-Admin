@@ -1,12 +1,25 @@
 import React from "react";
 import "./index.less";
 import MyCard from "./container/myCard";
-import api from "@/mockApi/homeList";
-import { Pagination, } from "antd";
+import api from "@/api";
+import { Pagination } from "antd";
+const { article } = api;
 class Article extends React.Component {
   state = {
-    indexList: api
+    indexList: []
   };
+  componentWillMount() {
+    this.$axios({
+      method: "get",
+      url: article
+    }).then(res => {
+      console.log(res);
+      this.setState({
+        indexList: res.data.data
+      });
+    });
+  }
+  
   render() {
     return (
       <div className="home">
