@@ -47,5 +47,10 @@ export default [{
         path: "/admin/tags",
         title: "标签",
         iconType: 'tags',
+    },
+    {
+        path: "/admin/edit",
+        title: "编辑",
+        iconType: 'edit',
     }
 ]

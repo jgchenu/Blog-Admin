@@ -1,5 +1,5 @@
 import React from "react";
-import { Input, Button, Tag, Tooltip, Icon } from "antd";
+import { Input, Button, Tag, Tooltip, Icon, message } from "antd";
 import api from "@/api.js";
 import E from "wangeditor";
 import "./index.less";
@@ -9,7 +9,7 @@ class WriteArticle extends React.Component {
     super(props, context);
     this.state = {
       editorContent: "",
-      tags: ["我家银", "傻银", "银宝宝"],
+      tags: [],
       inputVisible: false,
       inputValue: "",
       title: ""
@@ -38,7 +38,6 @@ class WriteArticle extends React.Component {
     if (inputValue && tags.indexOf(inputValue) === -1) {
       tags = [...tags, inputValue];
     }
-    console.log(tags);
     this.setState({
       tags,
       inputVisible: false,
@@ -46,7 +45,7 @@ class WriteArticle extends React.Component {
     });
   };
   saveInputRef = input => (this.input = input);
-  handleSubmit=()=> {
+  handleSubmit = () => {
     this.$axios({
       url: article,
       method: "post",
@@ -57,18 +56,30 @@ class WriteArticle extends React.Component {
       }
     }).then(res => {
       console.log(res);
+      if (res.data.code === 200) {
+        message.success("发布成功", 2, () => {
+          this.setState({
+            editorContent: "",
+            tags: [],
+            inputVisible: false,
+            inputValue: "",
+            title: ""
+          });
+          this.editor.txt.clear();
+        });
+      }
     });
-  }
+  };
   initEdit() {
     const elem = this.refs.editorElem;
-    const editor = new E(elem);
+    this.editor = new E(elem);
     // 使用 onchange 函数监听内容的变化，并实时更新到 state 中
-    editor.customConfig.onchange = html => {
+    this.editor.customConfig.onchange = html => {
       this.setState({
         editorContent: html
       });
     };
-    editor.create();
+    this.editor.create();
   }
   componentDidMount() {
     this.initEdit();
@@ -91,7 +102,7 @@ class WriteArticle extends React.Component {
         </div>
         <div className="addTag">
           <h2>添加新标签</h2>
-          {tags.map((tag, index) => {
+          {tags.map(tag => {
             const isLongTag = tag.length > 20;
             const tagElem = (
               <Tag

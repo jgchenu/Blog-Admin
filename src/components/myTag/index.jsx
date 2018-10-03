@@ -28,14 +28,15 @@ class MyTag extends React.Component {
           boxShadow: "0 0 0 1px #d9d9d9 inset"
         }}
         className="singleTag"
+        key={index}
       >
         <Tag
           color={this.tagColors[index]}
           key={index}
           style={{
-            height: `${(item.count + 1) * 20}px`,
-            lineHeight: `${(item.count + 1) * 20}px`,
-            fontSize: `${(item.count + 1) * 8}px`,
+            height: `${(item.count + 1) * 10}px`,
+            lineHeight: `${(item.count + 1) * 10}px`,
+            fontSize: `${(item.count + 1) * 4}px`,
             borderRadius: '8%'
           }}
         >
