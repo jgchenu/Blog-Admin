@@ -7,10 +7,12 @@ const { article } = api;
 class Article extends React.Component {
   state = {
     indexList: [],
-    allCount:0
+    allCount: 0
   };
   componentWillMount() {
-    this.loadData()
+    this.page = sessionStorage.getItem("page") || 1;
+    sessionStorage.setItem("page", this.page);
+    this.loadData(this.page);
   }
   loadData = (page = 1, pageSize = 10) => {
     this.$axios({
@@ -21,15 +23,17 @@ class Article extends React.Component {
         pageSize
       }
     }).then(res => {
-      console.log(res)
+      console.log(res);
       this.setState({
         indexList: res.data.data,
-        allCount:res.data.count
+        allCount: res.data.count
       });
     });
   };
   onChange = (page, pageSize) => {
-    this.loadData(page,pageSize)
+    this.page = page;
+    sessionStorage.setItem("page", this.page);
+    this.loadData(page, pageSize);
   };
   render() {
     return (
@@ -40,7 +44,11 @@ class Article extends React.Component {
           ))}
         </div>
         <div className="footer">
-          <Pagination defaultCurrent={1} total={this.state.allCount} onChange={this.onChange} />
+          <Pagination
+            defaultCurrent={parseInt(this.page,10)}
+            total={this.state.allCount}
+            onChange={this.onChange}
+          />
         </div>
       </div>
     );

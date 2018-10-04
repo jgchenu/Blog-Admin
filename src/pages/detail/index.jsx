@@ -16,6 +16,9 @@ class Detail extends React.Component {
   }
 
   componentWillMount() {
+    this.loadData();
+  }
+  loadData = () => {
     this.$axios({
       method: "get",
       url: `${article}/${this.state.id}`
@@ -25,7 +28,7 @@ class Detail extends React.Component {
         indexList: res.data.data
       });
     });
-  }
+  };
   render() {
     let content =
       this.state.indexList.content && this.state.indexList.content.value;

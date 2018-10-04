@@ -7,7 +7,6 @@ const SubMenu = Menu.SubMenu;
 
 class NavLeft extends React.Component {
   handleClickMenu = ({ key }) => {
-    console.log(key);
     history.push(key);
   };
   returnItems = () => {

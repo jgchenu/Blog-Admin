@@ -12,7 +12,8 @@ class WriteArticle extends React.Component {
       tags: [],
       inputVisible: false,
       inputValue: "",
-      title: ""
+      title: "",
+      id: this.props.match.params.id
     };
   }
   handleClose = removedTag => {
@@ -47,30 +48,20 @@ class WriteArticle extends React.Component {
   saveInputRef = input => (this.input = input);
   handleSubmit = () => {
     this.$axios({
-      url: article,
-      method: "post",
+      url: `${article}/${this.state.id}`,
+      method: "put",
       data: {
         content: this.state.editorContent,
         title: this.state.title,
         tags: this.state.tags
       }
     }).then(res => {
-      console.log(res);
       if (res.data.code === 200) {
-        message.success("发布成功", 2, () => {
-          this.setState({
-            editorContent: "",
-            tags: [],
-            inputVisible: false,
-            inputValue: "",
-            title: ""
-          });
-          this.editor.txt.clear();
-        });
+        message.success("更新成功", 1);
       }
     });
   };
-  initEdit() {
+  initEdit = () => {
     const elem = this.refs.editorElem;
     this.editor = new E(elem);
     // 使用 onchange 函数监听内容的变化，并实时更新到 state 中
@@ -80,16 +71,36 @@ class WriteArticle extends React.Component {
       });
     };
     this.editor.create();
-  }
+  };
+  loadData = () => {
+    this.$axios({
+      method: "get",
+      url: `${article}/${this.state.id}`
+    }).then(res => {
+      console.log(res);
+      let data = res.data.data;
+      this.setState(
+        {
+          editorContent: data.content.value,
+          tags: data.tags.map(item => item.name),
+          title: data.title
+        },
+        () => {
+          this.editor.txt.html(this.state.editorContent);
+        }
+      );
+    });
+  };
   componentDidMount() {
     this.initEdit();
+    this.loadData();
   }
   render() {
     const { tags, inputVisible, inputValue, title } = this.state;
     return (
       <div className="editArticle">
         <div className="header">
-          <h2>撰写新文章</h2>
+          <h2>更新文章</h2>
           <Input
             size="large"
             placeholder="在此输入标题"
@@ -144,7 +155,7 @@ class WriteArticle extends React.Component {
         </div>
         <div className="button">
           <Button type="primary" onClick={this.handleSubmit}>
-            发布
+            更新
           </Button>
         </div>
       </div>

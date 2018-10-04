@@ -27,8 +27,7 @@ export default class MyRouter extends React.Component {
                   <Route path="/admin/tags" component={Tags} />
                   <Route path="/admin/article" component={Article} />
                   <Route path="/admin/writeArticle" component={WriteArticle} />
-                  <Route path="/admin/editArticle" component={EditArticle} />
-                  <Route path="/admin/edit/:id" component={WriteArticle} />
+                  <Route path="/admin/editArticle/:id" component={EditArticle} />
                   <Route path="/admin/detail/:id" component={Detail} />
                   <Route path="/admin/comment" component={Comment} />
                   <Route path="/admin/messageBoard" component={MessageBoard} />

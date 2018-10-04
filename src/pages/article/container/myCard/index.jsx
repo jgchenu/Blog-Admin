@@ -12,7 +12,7 @@ export default class MyCard extends React.Component {
     list: { content: { value: "" } }
   };
   goDetail(id) {
-    history.push(`/admin/detail/${id}`);
+    history.push(`/admin/editArticle/${id}`);
   }
 
   render() {
