@@ -52,5 +52,10 @@ export default [{
         path: "/admin/edit",
         title: "编辑",
         iconType: 'edit',
+    },
+    {
+        path: "/admin/tagArticle",
+        title: "标签文章",
+        iconType: 'hourglass',
     }
 ]

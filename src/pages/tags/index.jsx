@@ -1,6 +1,6 @@
 import React from "react";
 import MyTag from "@/components/myTag";
-import api from "@/api.js";
+import api from "@/lib/api.js";
 const { tag } = api;
 class Archive extends React.Component {
   state = {

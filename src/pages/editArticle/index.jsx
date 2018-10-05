@@ -1,6 +1,7 @@
 import React from "react";
 import { Input, Button, Tag, Tooltip, Icon, message } from "antd";
-import api from "@/api.js";
+import api from "@/lib/api.js";
+import unique from "@/lib/unique";
 import E from "wangeditor";
 import "./index.less";
 const { article } = api;
@@ -53,7 +54,7 @@ class WriteArticle extends React.Component {
       data: {
         content: this.state.editorContent,
         title: this.state.title,
-        tags: this.state.tags
+        tags: unique(this.state.tags)
       }
     }).then(res => {
       if (res.data.code === 200) {

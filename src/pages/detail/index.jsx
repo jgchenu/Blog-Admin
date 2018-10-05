@@ -2,7 +2,7 @@ import React from "react";
 import MyTag from "@/components/myTag";
 import "./index.less";
 import { Card, Input, Button } from "antd";
-import api from "@/api";
+import api from "@/lib/api";
 const { article } = api;
 const { TextArea } = Input;
 

@@ -1,6 +1,6 @@
 import React from "react";
 import "./index.less";
-import MyCard from "./container/myCard";
+import MyCard from "@/pages/article/container/myCard";
 import api from "@/lib/api";
 import { Pagination } from "antd";
 import history from "@/router/history";

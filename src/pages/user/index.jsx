@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, message } from "antd";
-import api from "@/api.js";
+import api from "@/lib/api.js";
 import E from "wangeditor";
 import "./index.less";
 const { person } = api;

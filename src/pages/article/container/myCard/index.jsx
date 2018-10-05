@@ -11,16 +11,22 @@ export default class MyCard extends React.Component {
   static defaultProps = {
     list: { content: { value: "" } }
   };
-  goDetail(id) {
+  goDetail = (event, id) => {
+    if (event.target.className.indexOf("ant-tag") !== -1) {
+      const name = event.target.innerText;
+      sessionStorage.setItem("page", 1);
+      history.push(`/admin/tagArticle/${name}`);
+      return;
+    }
     history.push(`/admin/editArticle/${id}`);
-  }
+  };
 
   render() {
     let list = this.props.list;
     let content = list.content ? list.content.value : "";
     content = content.length > 30 ? content.substring(0, 100) : content;
     return (
-      <div className="myCard" onClick={this.goDetail.bind(this, list.id)}>
+      <div className="myCard" onClick={e => this.goDetail(e, list.id)}>
         <Card title={list.title} style={{ width: "100%" }}>
           <div
             className="content"

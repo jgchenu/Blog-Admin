@@ -1,5 +1,6 @@
 import React from "react";
 import { Tag, Badge } from "antd";
+import history from "@/router/history";
 import "./index.less";
 class MyTag extends React.Component {
   tagColors = [
@@ -18,6 +19,10 @@ class MyTag extends React.Component {
   static defaultProps = {
     tags: []
   };
+  goTagArticle = name => {
+    sessionStorage.setItem("page", 1);
+    history.push(`/admin/tagArticle/${name}`);
+  };
   renderTags = tags =>
     tags.map((item, index) => (
       <Badge
@@ -29,15 +34,16 @@ class MyTag extends React.Component {
         }}
         className="singleTag"
         key={index}
+        onClick={() => this.goTagArticle(item.name)}
       >
         <Tag
-          color={this.tagColors[index]}
+          color={this.tagColors[index % 11]}
           key={index}
           style={{
             height: `${(item.count + 1) * 10}px`,
             lineHeight: `${(item.count + 1) * 10}px`,
             fontSize: `${(item.count + 1) * 4}px`,
-            borderRadius: '8%'
+            borderRadius: "8%"
           }}
         >
           {item.name}
