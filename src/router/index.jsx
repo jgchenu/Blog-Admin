@@ -43,6 +43,7 @@ export default class MyRouter extends React.Component {
             )}
           />
           <Route path="/login" component={Login} />
+          <Route component={MyRedirect} />
         </Switch>
       </Router>
     );

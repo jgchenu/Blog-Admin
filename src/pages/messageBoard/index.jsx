@@ -1,32 +1,39 @@
 import React from "react";
 import E from "wangeditor";
-import { Button, List, Avatar } from "antd";
+import { Button, List, Avatar, Pagination, Card } from "antd";
+import api from "@/lib/api";
 import "./index.less";
-const data = [
-  {
-    title: "Ant Design Title 1"
-  },
-  {
-    title: "Ant Design Title 2"
-  },
-  {
-    title: "Ant Design Title 3"
-  },
-  {
-    title: "Ant Design Title 4"
-  }
-];
-class Archive extends React.Component {
+
+const { comment } = api;
+
+class MessageBoard extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      editorContent: ""
+      editorContent: "",
+      allCount: 10,
+      data: []
     };
-    this.clickHandle = this.clickHandle.bind(this);
   }
-  clickHandle() {
+  componentWillMount() {
+    this.loadData();
+  }
+  clickHandle = () => {
     alert(this.state.editorContent);
-  }
+  };
+  loadData = () => {
+    this.$axios({
+      url: `${comment}/board`,
+      method: "get"
+    }).then(res => {
+      console.log(res);
+      if (res.data.code === 200) {
+        this.setState({
+          data: res.data.data
+        });
+      }
+    });
+  };
   initEdit = () => {
     const elem = this.refs.editorElem;
     const editor = new E(elem);
@@ -50,31 +57,75 @@ class Archive extends React.Component {
           <List
             header={<div>评论</div>}
             itemLayout="horizontal"
-            dataSource={data}
+            dataSource={this.state.data}
             renderItem={item => (
-              <List.Item>
-                <List.Item.Meta
-                  avatar={
-                    <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                  }
-                  title={<a href="https://ant.design">{item.title}</a>}
-                  description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-                />
-              </List.Item>
+              <div>
+                <List.Item className="comment">
+                  <List.Item.Meta
+                    avatar={<Avatar src={item.sayUser[0].avatar} />}
+                    title={
+                      <a>{item.sayUser[0].userName}</a>
+                    }
+                    description={
+                      <div>
+                        {item.content}
+                        <br />
+                        <div
+                          className="applyButton"
+                          onClick={() => this.handleApply(item.sayUser.id)}
+                        >
+                          回复
+                        </div>
+                      </div>
+                    }
+                  />
+                </List.Item>
+                {item.apply.map((subItem, index) => (
+                  <List.Item className="apply" key={index}>
+                    <List.Item.Meta
+                      avatar={<Avatar src={subItem.applySayUser[0].avatar} />}
+                      title={
+                        <a>
+                          {subItem.applySayUser[0].userName}
+                        </a>
+                      }
+                      description={
+                        <div>
+                          <strong>
+                            @{subItem.applyToUser[0].userName}
+                            &nbsp;&nbsp;&nbsp;
+                          </strong>
+                          {subItem.content}
+                          <br />
+                          <div className="applyButton">回复</div>
+                        </div>
+                      }
+                    />
+                  </List.Item>
+                ))}
+              </div>
             )}
           />
         </div>
         <div className="editor">
-          <div ref="editorElem" style={{ textAlign: "left" }} />
-          <div className="button">
-            <Button type="primary" onClick={this.clickHandle}>
-              获取内容
-            </Button>
-          </div>
+          <Card title="评论" bordered={false} style={{ width: "100%" }}>
+            <div ref="editorElem" style={{ textAlign: "left" }} />
+            <div className="button">
+              <Button type="primary">发布</Button>
+            </div>
+          </Card>
+        </div>
+
+        <div className="footer">
+          <Pagination
+            defaultCurrent={parseInt(1, 10)}
+            total={this.state.allCount}
+            onChange={this.onChange}
+          />
         </div>
       </div>
     );
   }
 }
 
-export default Archive;
+export default MessageBoard;

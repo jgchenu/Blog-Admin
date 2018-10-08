@@ -1,16 +1,47 @@
 @import "~@/styles/vars.less";
 .messageBoard {
-    .boardContent{
+    .boardContent {
         margin-top: 1rem;
+        .comment{
+            border-bottom: 1px solid #dddddd;
+        }
+        .applyButton {
+            display: none;
+            width: 28px;
+            height: 28px;
+            line-height: 28px;
+            border-radius: 4px;
+            font-size: 12px;
+            text-align: center;
+            background-color: @primary;
+            color: #000;
+            cursor: pointer;
+        }
+        .comment:hover,
+        .apply:hover {
+            .applyButton {
+                display: block;
+            }
+        }
+        .apply {
+            box-sizing: border-box;
+            padding-left: 40px;
+            strong{
+                font-weight: bolder;
+            }
+        }
     }
     .editor {
         margin-top: 1rem;
         .w-e-toolbar {
-            background-color: #ffffff  !important;
+            background-color: #ffffff !important;
         }
-        .button{
+        .button {
             margin-top: .5rem;
             text-align: right;
         }
+    }
+    .footer {
+        text-align: center;
     }
 }
