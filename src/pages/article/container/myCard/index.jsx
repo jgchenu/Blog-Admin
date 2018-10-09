@@ -29,7 +29,7 @@ export default class MyCard extends React.Component {
       <div className="myCard" onClick={e => this.goDetail(e, list.id)}>
         <Card title={list.title} style={{ width: "100%" }}>
           <div
-            className="content"
+            className="mycontent"
             dangerouslySetInnerHTML={{ __html: content }}
           >
             {}

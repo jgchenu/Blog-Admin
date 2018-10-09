@@ -5,13 +5,13 @@ import E from "wangeditor";
 import "./index.less";
 const { person } = api;
 
-
 class EditUser extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
       loading: false,
-      introduction: ""
+      introduction: "",
+      imageUrl: ""
     };
   }
   handleSubmit = () => {
@@ -46,7 +46,8 @@ class EditUser extends React.Component {
       if (res.data.code === 200) {
         this.setState(
           {
-            introduction: res.data.data.introduction
+            introduction: res.data.data.introduction,
+            imageUrl: res.data.data.avatar
           },
           () => {
             this.editor.txt.html(this.state.introduction);
@@ -60,14 +61,14 @@ class EditUser extends React.Component {
     this.loadData();
   }
 
-   getBase64=(img, callback)=> {
+  getBase64 = (img, callback) => {
     const reader = new FileReader();
     reader.addEventListener("load", () => callback(reader.result));
     reader.readAsDataURL(img);
-  }
-  
-   beforeUpload=(file) =>{
-    const isJPG = file.type === "image/jpeg";
+  };
+
+  beforeUpload = file => {
+    const isJPG = file.type === "image/jpeg"||file.type === "image/png";
     if (!isJPG) {
       message.error("You can only upload JPG file!");
     }
@@ -76,7 +77,7 @@ class EditUser extends React.Component {
       message.error("Image must smaller than 2MB!");
     }
     return isJPG && isLt2M;
-  }
+  };
 
   handleChange = info => {
     if (info.file.status === "uploading") {
@@ -84,7 +85,10 @@ class EditUser extends React.Component {
       return;
     }
     if (info.file.status === "done") {
-      console.log(info)
+      console.log(info);
+      if (info.file.response.code === 200) {
+        message.success("更新头像成功", 1);
+      }
       // Get this url from response in real world.
       this.getBase64(info.file.originFileObj, imageUrl =>
         this.setState({
@@ -114,7 +118,11 @@ class EditUser extends React.Component {
           beforeUpload={this.beforeUpload}
           onChange={this.handleChange}
         >
-          {imageUrl ? <img src={imageUrl} alt="avatar" className='ant-upload' /> : uploadButton}
+          {imageUrl ? (
+            <img src={imageUrl} alt="avatar" className="ant-upload" />
+          ) : (
+            uploadButton
+          )}
         </Upload>
         <div className="content">
           <div ref="editorElem" style={{ textAlign: "left" }} />
