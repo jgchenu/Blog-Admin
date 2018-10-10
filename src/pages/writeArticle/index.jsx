@@ -59,18 +59,21 @@ class WriteArticle extends React.Component {
     }).then(res => {
       console.log(res);
       if (res.data.code === 200) {
-        message.success("发布成功", 2, () => {
-          this.setState({
-            editorContent: "",
-            tags: [],
-            inputVisible: false,
-            inputValue: "",
-            title: ""
-          });
-          this.editor.txt.clear();
+        message.success("发布成功", 1, () => {
+          this.resetData();
         });
       }
     });
+  };
+  resetData = () => {
+    this.setState({
+      editorContent: "",
+      tags: [],
+      inputVisible: false,
+      inputValue: "",
+      title: ""
+    });
+    this.editor.txt.clear();
   };
   initEdit() {
     const elem = this.refs.editorElem;

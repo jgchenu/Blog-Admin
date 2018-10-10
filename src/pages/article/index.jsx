@@ -14,7 +14,7 @@ class Article extends React.Component {
   componentWillMount() {
     this.page = sessionStorage.getItem("page") || 1;
     sessionStorage.setItem("page", this.page);
-    this.loadData(this.page, 10,this.state.name);
+    this.loadData(this.page, 10, this.state.name);
   }
   loadData = (page = 1, pageSize = 10, name = "测试") => {
     if (/^\/admin\/tagArticle\/.*/.test(history.location.pathname)) {
@@ -56,9 +56,10 @@ class Article extends React.Component {
     });
   };
   onChange = (page, pageSize) => {
+    document.scrollingElement.scrollTop = 0;
     this.page = page;
     sessionStorage.setItem("page", this.page);
-    this.loadData(page, pageSize,this.state.name);
+    this.loadData(page, pageSize, this.state.name);
   };
   render() {
     return (
