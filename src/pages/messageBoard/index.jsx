@@ -2,8 +2,10 @@ import React from "react";
 import E from "wangeditor";
 import { Button, List, Avatar, Pagination, Card, message } from "antd";
 import api from "@/lib/api";
+import getPage from "@/lib/getPage";
 import "./index.less";
 import { Object } from "core-js";
+import history from "@/router/history";
 
 const { comment } = api;
 
@@ -13,31 +15,33 @@ class MessageBoard extends React.Component {
     this.state = {
       editorContent: "",
       allCount: 10,
-      data: [],
+      indexList: [],
       applyPerson: {},
       commentId: ""
     };
   }
   componentWillMount() {
-    this.loadData();
+    this.page = getPage();
+    this.loadData(this.page, 10);
   }
   componentDidMount() {
     this.initEdit();
   }
-  clickHandle = () => {
-    alert(this.state.editorContent);
-  };
-  loadData = () => {
+
+  loadData = (page = 1, pageSize = 10) => {
     this.$axios({
       url: `${comment}/board`,
-      method: "get"
+      method: "get",
+      params: {
+        page,
+        pageSize
+      }
     }).then(res => {
       console.log(res);
-      if (res.data.code === 200) {
-        this.setState({
-          data: res.data.data
-        });
-      }
+      this.setState({
+        indexList: res.data.data,
+        allCount: res.data.count
+      });
     });
   };
   initEdit = () => {
@@ -50,6 +54,12 @@ class MessageBoard extends React.Component {
       });
     };
     this.editor.create();
+  };
+  onChange = (page, pageSize) => {
+    document.scrollingElement.scrollTop = 0;
+    history.push(`/admin/messageBoard/?page=${page}`);
+    this.page = getPage();
+    this.loadData(page, pageSize);
   };
   handleRenderItem = item => {
     return (
@@ -79,7 +89,9 @@ class MessageBoard extends React.Component {
               description={
                 <div>
                   <strong>
-                    @ <Avatar src={subItem.applyToUser.avatar} />&nbsp;{subItem.applyToUser.userName}
+                    @ <Avatar src={subItem.applyToUser.avatar} />
+                    &nbsp;
+                    {subItem.applyToUser.userName}
                     &nbsp;&nbsp;&nbsp;
                   </strong>
                   <div dangerouslySetInnerHTML={{ __html: subItem.content }} />
@@ -102,6 +114,7 @@ class MessageBoard extends React.Component {
   handleApply = (applyPerson, commentId) => {
     document.scrollingElement.scrollTop =
       document.scrollingElement.scrollHeight;
+    this.editor.txt.html(this.state.editorContent);
     this.setState({
       applyPerson,
       commentId
@@ -149,7 +162,7 @@ class MessageBoard extends React.Component {
           <List
             header={<div>评论</div>}
             itemLayout="horizontal"
-            dataSource={this.state.data}
+            dataSource={this.state.indexList}
             renderItem={this.handleRenderItem}
           />
         </div>
@@ -158,7 +171,9 @@ class MessageBoard extends React.Component {
             title={
               this.state.applyPerson.userName ? (
                 <div>
-                  回复 <Avatar src={this.state.applyPerson.avatar} />&nbsp;{this.state.applyPerson.userName}:
+                  回复 <Avatar src={this.state.applyPerson.avatar} />
+                  &nbsp;
+                  {this.state.applyPerson.userName}:
                   <a onClick={this.handleCancelApply}>&nbsp;&nbsp;取消</a>
                 </div>
               ) : (

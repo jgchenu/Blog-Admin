@@ -82,7 +82,7 @@ class WriteArticle extends React.Component {
       let data = res.data.data;
       this.setState(
         {
-          editorContent: data.content.value,
+          editorContent: (data.content && data.content.value) || "",
           tags: data.tags.map(item => item.name),
           title: data.title
         },

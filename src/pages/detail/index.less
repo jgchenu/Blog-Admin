@@ -1,31 +1,69 @@
+@import '~@/styles/vars.less';
 #myDetail {
-  box-sizing: border-box;
-  padding:.1rem .2rem;
-  .title {
-    text-align: center;
-    font-size: 30px;
-  }
-  .content {
-    margin-top: 1rem;
-    font-size: 16px;
-    padding: 0;
-    color: #000;
-  }
-  .tags {
-    margin-top: 1rem;
-    text-align: right;
-  }
-  .comment {
-    margin-top: 1rem;
-    .button {
-      margin-top: 0.2rem;
-      text-align: right;
+    box-sizing: border-box;
+    padding: 0.1rem 0.2rem;
+    .title {
+        text-align: center;
+        font-size: 30px;
     }
-  }
-  .footer {
-    margin-top: 1rem;
-    display: flex;
-    justify-content: space-between;
-    cursor: pointer;
-  }
+    .content {
+        margin-top: 1rem;
+        font-size: 16px;
+        padding: 0;
+        color: #000;
+    }
+    .tags {
+        margin-top: 1rem;
+        text-align: right;
+    }
+    //评论人以及内容样式
+    .boardContent {
+        margin-top: 1rem;
+        .comment {
+            border-bottom: 1px solid #dddddd;
+        }
+        .applyButton {
+            display: none;
+            width: 28px;
+            height: 28px;
+            line-height: 28px;
+            border-radius: 4px;
+            font-size: 12px;
+            text-align: center;
+            background-color: @primary;
+            color: #000;
+            cursor: pointer;
+        }
+        .comment:hover,
+        .apply:hover {
+            .applyButton {
+                display: block;
+            }
+        }
+        .apply {
+            box-sizing: border-box;
+            padding-left: 40px;
+            strong {
+                font-weight: bolder;
+            }
+        }
+        //评论内容的padding
+        .ant-list-item{
+          padding-bottom: 0;
+        }
+    }
+    //编辑器以及发布按钮样式
+    .editor {
+        margin-top: .2rem;
+        .w-e-toolbar {
+            background-color: #ffffff !important;
+        }
+        .w-e-text-container {
+            height: 140px !important;
+        }
+        .button {
+            margin-top: .2rem;
+            text-align: center;
+        }
+    }
 }

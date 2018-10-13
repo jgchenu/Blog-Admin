@@ -2,6 +2,7 @@ const api = {
     article: '/article',
     tag: '/tag',
     person: '/person',
-    comment: '/comment'
+    comment: '/comment',
+    articleComment: '/comment/article'
 }
 export default api;

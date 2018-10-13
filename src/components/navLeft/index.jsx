@@ -45,12 +45,15 @@ class NavLeft extends React.Component {
     });
   };
   render() {
+    let item = routes.slice(0, 5).find(item => {
+      return history.location.pathname.indexOf(item.path) !== -1;
+    });
     return (
       <div>
         <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={[history.location.pathname]}
+          defaultSelectedKeys={[(item && item.path) || ""]}
           onClick={this.handleClickMenu}
         >
           {this.returnItems()}

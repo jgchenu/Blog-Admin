@@ -2,44 +2,20 @@ import React from "react";
 import "./index.less";
 import MyCard from "./container/myCard";
 import api from "@/lib/api";
+import getPage from "@/lib/getPage";
 import { Pagination } from "antd";
 import history from "@/router/history";
-const { article, tag } = api;
+const { article } = api;
 class Article extends React.Component {
   state = {
     indexList: [],
-    allCount: 0,
-    name: this.props.match.params.name
+    allCount: 0
   };
   componentWillMount() {
-    this.page = sessionStorage.getItem("page") || 1;
-    sessionStorage.setItem("page", this.page);
-    this.loadData(this.page, 10, this.state.name);
+    this.page = getPage();
+    this.loadData(this.page, 10);
   }
-  loadData = (page = 1, pageSize = 10, name = "测试") => {
-    if (/^\/admin\/tagArticle\/.*/.test(history.location.pathname)) {
-      this.getTagArticle(page, pageSize, name);
-    } else {
-      this.getALlArticle(page, pageSize);
-    }
-  };
-  getTagArticle = (page, pageSize = 10, name) => {
-    this.$axios({
-      url: `${tag}/${name}`,
-      method: "get",
-      params: {
-        page,
-        pageSize
-      }
-    }).then(res => {
-      console.log(res);
-      this.setState({
-        indexList: res.data.data,
-        allCount: res.data.count
-      });
-    });
-  };
-  getALlArticle = (page, pageSize = 10) => {
+  loadData = (page = 1, pageSize = 10) => {
     this.$axios({
       url: article,
       method: "get",
@@ -55,11 +31,12 @@ class Article extends React.Component {
       });
     });
   };
+
   onChange = (page, pageSize) => {
     document.scrollingElement.scrollTop = 0;
-    this.page = page;
-    sessionStorage.setItem("page", this.page);
-    this.loadData(page, pageSize, this.state.name);
+    history.push(`/admin/article/?page=${page}`);
+    this.page = getPage();
+    this.loadData(page, pageSize);
   };
   render() {
     return (
