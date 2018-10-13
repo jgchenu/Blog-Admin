@@ -3,12 +3,14 @@ import { Card, Modal } from "antd";
 import "./index.less";
 import history from "@/router/history";
 import MyTag from "@/components/myTag/index";
+import api from "@/lib/api";
+const { article } = api;
 const confirm = Modal.confirm;
 export default class MyCard extends React.Component {
   static defaultProps = {
     list: { content: { value: "" } }
   };
-  handleToEdit = ( id) => {
+  handleToEdit = id => {
     // if (event.target.className.indexOf("ant-tag") !== -1) {
     //   const name = event.target.innerText;
     //   sessionStorage.setItem("page", 1);
@@ -20,17 +22,25 @@ export default class MyCard extends React.Component {
   handletoDetail = id => {
     history.push(`/admin/detail/${id}`);
   };
-  handleDeleteConfirm = () => {
+  handleDeleteConfirm = id => {
     confirm({
       title: "你确定要删除以下这篇文章？",
       content: this.props.list.title,
       okText: "确定",
       okType: "danger",
       cancelText: "取消",
-      onOk() {
-        console.log("OK");
+      onOk:()=>{
+        this.$axios({
+          url: `${article}/${id}`,
+          method: "delete"
+        }).then(res => {
+          if (res.data.code === 200) {
+            console.log("delete", res);
+            this.props.onLoadData(10);
+          }
+        });
       },
-      onCancel() {
+      onCancel:()=> {
         console.log("Cancel");
       }
     });
@@ -56,7 +66,10 @@ export default class MyCard extends React.Component {
             >
               编辑
             </div>
-            <div className="articleDelete" onClick={this.handleDeleteConfirm}>
+            <div
+              className="articleDelete"
+              onClick={() => this.handleDeleteConfirm(list.id)}
+            >
               删除
             </div>
           </footer>

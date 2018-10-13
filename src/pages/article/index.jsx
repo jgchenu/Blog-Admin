@@ -13,14 +13,14 @@ class Article extends React.Component {
   };
   componentWillMount() {
     this.page = getPage();
-    this.loadData(this.page, 10);
+    this.loadData(10);
   }
-  loadData = (page = 1, pageSize = 10) => {
+  loadData = (pageSize = 10) => {
     this.$axios({
       url: article,
       method: "get",
       params: {
-        page,
+        page: this.page,
         pageSize
       }
     }).then(res => {
@@ -36,14 +36,14 @@ class Article extends React.Component {
     document.scrollingElement.scrollTop = 0;
     history.push(`/admin/article/?page=${page}`);
     this.page = getPage();
-    this.loadData(page, pageSize);
+    this.loadData(pageSize);
   };
   render() {
     return (
       <div className="home">
         <div className="lists">
           {this.state.indexList.map((item, index) => (
-            <MyCard list={item} key={index} />
+            <MyCard list={item} key={index} onLoadData={this.loadData} />
           ))}
         </div>
         <div className="footer">
