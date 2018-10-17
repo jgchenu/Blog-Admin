@@ -7,9 +7,6 @@ const SubMenu = Menu.SubMenu;
 
 class NavLeft extends React.Component {
   handleClickMenu = ({ key }) => {
-    if (key === "/admin/article") {
-      sessionStorage.setItem("page", 1);
-    }
     history.push(key);
   };
   returnItems = () => {

@@ -6,7 +6,7 @@ import NProgress from 'nprogress'
 // Dismiss manually and asynchronously
 
 const instance = axios.create({
-    baseURL: process.env.NODE_ENV === 'development' ? 'http://localhost:8000' : '/',
+    baseURL: process.env.NODE_ENV === 'development' ? 'http://localhost:8000/api' : '/',
     timeout: 10000,
     headers: {
         'Content-Type': 'application/json;charset=UTF-8'
