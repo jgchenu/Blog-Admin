@@ -1,12 +1,12 @@
 import React from "react";
 import { Button, message, Upload, Icon } from "antd";
-import { updateAvatar } from "@/redux/admin.redux";
+import { updateAvatar,updateInfo } from "@/redux/admin.redux";
 import { connect } from "react-redux";
 import E from "wangeditor";
 import "./index.less";
 @connect(
   state => state.admin,
-  { updateAvatar }
+  { updateAvatar,updateInfo }
 )
 class EditUser extends React.Component {
   constructor(props, context) {

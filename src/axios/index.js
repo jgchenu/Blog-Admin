@@ -34,7 +34,7 @@ instance.interceptors.response.use((res) => {
     NProgress.done();
     if (error.response.status === 401) {
         localStorage.clear();
-        message.error('请重新登录', () => {
+        message.error(error.response.message, () => {
             history.push('/login')
         });
     } else if (error.response.status === 500) {
