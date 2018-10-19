@@ -13,9 +13,9 @@ import Detail from "@/pages/detail/index";
 import NotFound from "@/pages/notFound/index";
 import Login from "@/pages/login/index";
 import history from "./history";
-import MyRedirect from '@/pages/redirect/index'
-import TagArticle from '@/pages/tagArticle/index'
-
+import MyRedirect from "@/pages/redirect/index";
+import TagArticle from "@/pages/tagArticle/index";
+import AuthRoute from "@/pages/auth/index";
 export default class MyRouter extends React.Component {
   render() {
     return (
@@ -25,13 +25,20 @@ export default class MyRouter extends React.Component {
             path="/admin"
             render={() => (
               <App>
+                <AuthRoute />
                 <Switch>
                   <Route path="/admin/home" component={Home} />
                   <Route path="/admin/tags" component={Tags} />
                   <Route path="/admin/article" component={Article} />
-                  <Route path="/admin/tagArticle/:name" component={TagArticle} />
+                  <Route
+                    path="/admin/tagArticle/:name"
+                    component={TagArticle}
+                  />
                   <Route path="/admin/writeArticle" component={WriteArticle} />
-                  <Route path="/admin/editArticle/:id" component={EditArticle} />
+                  <Route
+                    path="/admin/editArticle/:id"
+                    component={EditArticle}
+                  />
                   <Route path="/admin/detail/:id" component={Detail} />
                   <Route path="/admin/comment" component={Comment} />
                   <Route path="/admin/messageBoard" component={MessageBoard} />

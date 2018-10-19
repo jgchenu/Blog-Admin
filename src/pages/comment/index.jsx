@@ -27,7 +27,7 @@ class Comment extends React.Component {
         pageSize
       }
     }).then(res => {
-      console.log(res);
+       ;
       this.setState({
         indexList: res.data.data,
         allCount: res.data.count

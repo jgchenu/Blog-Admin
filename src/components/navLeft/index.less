@@ -1,19 +1,39 @@
 @import "./../../styles/vars.less";
 
-  .avatarCard {
-    text-align: center;
-    height: 128px;
-    border-bottom: 1px solid @borderColor;
-    line-height: 128px;
-    img {
+.avatarCard {
+  text-align: center;
+  height: 128px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  .avatarImg {
       height: 80px;
       width: 80px;
-      vertical-align: middle;
       border-radius: 50%;
       transition: all 0.5s;
       border: 1px solid @borderColor;
-    }
-    img:hover {
-      box-shadow: 0 0 10px #bbbbbb;
-    }
   }
+  .avatarCardName{
+    color: @primary;
+  }
+  @keyframes circle {
+      0% {
+          transform: scale(1);
+      }
+      50%{
+        transform: scale(1.05);
+      }
+      100% {
+          transform: scale(1);
+      }
+  }
+  
+}
+.left:hover {
+  .avatarImg {
+      box-shadow: 0 0 10px #bbbbbb;
+      animation: circle 1.5s infinite linear;
+      transform: rotate(180deg);
+  }
+}

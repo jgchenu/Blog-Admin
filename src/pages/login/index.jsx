@@ -1,10 +1,25 @@
 import React from "react";
 import "./index.less";
 import { Form, Icon, Input, Button } from "antd";
+import { connect } from "react-redux";
+import { login } from "@/redux/admin.redux.js";
+
 const bgImage = "http://test.jgchen.xin/static/blog/2.jpg";
 const FormItem = Form.Item;
+@connect(
+  state => state.admin,
+  { login }
+)
 class Login extends React.Component {
-  state = {};
+  handleSubmit = e => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        console.log(values);
+        this.props.login(values);
+      }
+    });
+  };
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
@@ -14,9 +29,7 @@ class Login extends React.Component {
           <Form onSubmit={this.handleSubmit} className="login-form">
             <FormItem>
               {getFieldDecorator("userName", {
-                rules: [
-                  { required: true, message: "Please input your username!" }
-                ]
+                rules: [{ required: true, message: "请输入用户名" }]
               })(
                 <Input
                   prefix={
@@ -28,9 +41,7 @@ class Login extends React.Component {
             </FormItem>
             <FormItem>
               {getFieldDecorator("password", {
-                rules: [
-                  { required: true, message: "Please input your Password!" }
-                ]
+                rules: [{ required: true, message: "请输入密码" }]
               })(
                 <Input
                   prefix={
@@ -47,7 +58,7 @@ class Login extends React.Component {
                 htmlType="submit"
                 className="login-form-button"
               >
-                Log in
+                登录
               </Button>
             </FormItem>
           </Form>

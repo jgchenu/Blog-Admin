@@ -149,6 +149,8 @@ module.exports = {
             options: {
               plugins: [
                 ['import', [{ libraryName: 'antd', style: true }]],  // import less
+                "transform-decorators-legacy",
+
               ],
               // This is a feature of `babel-loader` for webpack (not Babel itself).
               // It enables caching results in ./node_modules/.cache/babel-loader/

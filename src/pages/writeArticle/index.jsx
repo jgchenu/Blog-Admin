@@ -57,7 +57,7 @@ class WriteArticle extends React.Component {
         tags: unique(this.state.tags)
       }
     }).then(res => {
-      console.log(res);
+       ;
       if (res.data.code === 200) {
         message.success("发布成功", 1, () => {
           this.resetData();

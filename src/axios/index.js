@@ -1,5 +1,8 @@
 import axios from 'axios'
-
+import {
+    message
+} from 'antd'
+import history from "@/router/history";
 import '../../node_modules/nprogress/nprogress.css'
 import NProgress from 'nprogress'
 
@@ -13,11 +16,9 @@ const instance = axios.create({
     }
 });
 instance.interceptors.request.use((config) => {
-    // if (config.method === 'post') {
-    //     //如果是post请求则进行序列化处理
-    //     config.data = qs.stringify(config.data);
-    // }
     NProgress.start()
+    const token = localStorage.getItem('token');
+    config.headers.common['Authorization'] = 'Bearer ' + token;
     return config;
 }, (error) => {
     return Promise.reject(error);
@@ -30,7 +31,15 @@ instance.interceptors.response.use((res) => {
     return res;
 }, (error) => {
     //404等问题可以在这里处理
-    NProgress.done()
+    NProgress.done();
+    if (error.response.status === 401) {
+        localStorage.clear();
+        message.error('请重新登录', () => {
+            history.push('/login')
+        });
+    } else if (error.response.status === 500) {
+        message.error(JSON.stringify(error.response.message))
+    }
     return Promise.reject(error);
 
 });

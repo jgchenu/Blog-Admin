@@ -31,7 +31,7 @@ class Detail extends React.Component {
     //   url: `${comment}/board`,
     //   method: "get"
     // }).then(res => {
-    //   console.log(res);
+    //    ;
     //   if (res.data.code === 200) {
     //     this.setState({});
     //   }
@@ -142,7 +142,7 @@ class Detail extends React.Component {
       method: "post",
       data: requestData
     }).then(res => {
-      console.log(res);
+       ;
       if (res.data.code === 200) {
         message.success("发布成功", 1, () => {
           this.handleCancelApply();

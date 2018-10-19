@@ -1,31 +1,22 @@
 import React from "react";
 import { Button, message, Upload, Icon } from "antd";
-import api from "@/lib/api.js";
+import { updateAvatar } from "@/redux/admin.redux";
+import { connect } from "react-redux";
 import E from "wangeditor";
 import "./index.less";
-const { person } = api;
-
+@connect(
+  state => state.admin,
+  { updateAvatar }
+)
 class EditUser extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      loading: false,
-      introduction: "",
-      imageUrl: ""
+      loading: false
     };
   }
   handleSubmit = () => {
-    this.$axios({
-      url: `${person}`,
-      method: "put",
-      data: {
-        introduction: this.state.introduction
-      }
-    }).then(res => {
-      if (res.data.code === 200) {
-        message.success("更新成功", 1);
-      }
-    });
+    this.props.updateInfo({ introduction: this.state.introduction });
   };
   initEdit = () => {
     const elem = this.refs.editorElem;
@@ -39,42 +30,23 @@ class EditUser extends React.Component {
     this.editor.create();
   };
   loadData = () => {
-    this.$axios({
-      url: person,
-      method: "get"
-    }).then(res => {
-      if (res.data.code === 200) {
-        this.setState(
-          {
-            introduction: res.data.data.introduction,
-            imageUrl: res.data.data.avatar
-          },
-          () => {
-            this.editor.txt.html(this.state.introduction);
-          }
-        );
-      }
-    });
+    setTimeout(() => {
+      this.editor.txt.html(this.props.introduction);
+    }, 200);
   };
   componentDidMount() {
     this.initEdit();
     this.loadData();
   }
 
-  getBase64 = (img, callback) => {
-    const reader = new FileReader();
-    reader.addEventListener("load", () => callback(reader.result));
-    reader.readAsDataURL(img);
-  };
-
   beforeUpload = file => {
-    const isJPG = file.type === "image/jpeg"||file.type === "image/png";
+    const isJPG = file.type === "image/jpeg" || file.type === "image/png";
     if (!isJPG) {
-      message.error("You can only upload JPG file!");
+      message.error("你只能选择图片");
     }
     const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isLt2M) {
-      message.error("Image must smaller than 2MB!");
+      message.error("图片大小不能超过2M");
     }
     return isJPG && isLt2M;
   };
@@ -85,20 +57,14 @@ class EditUser extends React.Component {
       return;
     }
     if (info.file.status === "done") {
-      console.log(info);
+      this.setState({
+        loading: false
+      });
       if (info.file.response.code === 200) {
-        message.success("更新头像成功", 1);
+        this.props.updateAvatar(info.file.response);
       }
-      // Get this url from response in real world.
-      this.getBase64(info.file.originFileObj, imageUrl =>
-        this.setState({
-          imageUrl,
-          loading: false
-        })
-      );
     }
   };
-
   render() {
     const uploadButton = (
       <div>
@@ -106,7 +72,6 @@ class EditUser extends React.Component {
         <div className="ant-upload-text">Upload</div>
       </div>
     );
-    const imageUrl = this.state.imageUrl;
     return (
       <div className="editPerson">
         <Upload
@@ -114,12 +79,19 @@ class EditUser extends React.Component {
           listType="picture-card"
           className="avatar-uploader"
           showUploadList={false}
-          action="http://localhost:8000/person/editAvatar"
+          action={
+            process.env.NODE_ENV === "development"
+              ? "http://localhost:8000/api/user/editAvatar"
+              : "/api/user/editAvatar"
+          }
+          headers={{
+            Authorization: "Bearer " + localStorage.getItem("token")
+          }}
           beforeUpload={this.beforeUpload}
           onChange={this.handleChange}
         >
-          {imageUrl ? (
-            <img src={imageUrl} alt="avatar" className="ant-upload" />
+          {this.props.avatar ? (
+            <img src={this.props.avatar} alt="avatar" className="ant-upload" />
           ) : (
             uploadButton
           )}

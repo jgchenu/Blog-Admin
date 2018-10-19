@@ -3,14 +3,20 @@ import { Layout, BackTop, Icon } from "antd";
 import NavLeft from "./components/navLeft/index";
 import MyHeader from "./components/header/index";
 import "./styles/App.less";
+import { connect } from "react-redux";
+import { getAdminInfo } from "@/redux/admin.redux.js";
 
 const { Content, Sider } = Layout;
-
+@connect(
+  state => state.admin,
+  { getAdminInfo }
+)
 class App extends React.Component {
   state = {};
+  componentWillMount() {
+    this.props.getAdminInfo();
+  }
   render() {
-
-
     return (
       <Layout className="container">
         <Sider className="left">

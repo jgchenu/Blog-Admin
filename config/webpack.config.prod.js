@@ -157,6 +157,7 @@ module.exports = {
                   libraryName: 'antd',
                   style: true
                 }]], // import less
+                "transform-decorators-legacy",
               ],
               compact: true,
             },

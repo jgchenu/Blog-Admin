@@ -78,7 +78,7 @@ class WriteArticle extends React.Component {
       method: "get",
       url: `${article}/${this.state.id}`
     }).then(res => {
-      console.log(res);
+       ;
       let data = res.data.data;
       this.setState(
         {

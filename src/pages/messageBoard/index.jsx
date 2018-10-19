@@ -37,7 +37,7 @@ class MessageBoard extends React.Component {
         pageSize
       }
     }).then(res => {
-      console.log(res);
+       ;
       this.setState({
         indexList: res.data.data,
         allCount: res.data.count
@@ -143,7 +143,7 @@ class MessageBoard extends React.Component {
       method: "post",
       data: requestData
     }).then(res => {
-      console.log(res);
+       ;
       if (res.data.code === 200) {
         message.success("发布成功", 2, () => {
           this.handleCancelApply();

@@ -11,7 +11,7 @@ class Archive extends React.Component {
       url: tag,
       method: "get"
     }).then(res => {
-      console.log(res);
+       ;
       this.setState({
         tags: res.data.data
       });

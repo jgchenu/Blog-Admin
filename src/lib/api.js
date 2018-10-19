@@ -1,7 +1,7 @@
 const api = {
     article: '/article',
     tag: '/tag',
-    person: '/person',
+    admin: '/admin',
     comment: '/comment',
     articleComment: '/comment/article'
 }
