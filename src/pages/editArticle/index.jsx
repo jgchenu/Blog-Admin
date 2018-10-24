@@ -64,7 +64,16 @@ class WriteArticle extends React.Component {
   };
   initEdit = () => {
     const elem = this.refs.editorElem;
+    const uploadUrl =
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:8000/api/article/upload"
+        : "/api/article/upload";
     this.editor = new E(elem);
+    this.editor.customConfig.uploadFileName = "avatar";
+    this.editor.customConfig.uploadImgServer = uploadUrl;
+    this.editor.customConfig.uploadImgHeaders = {
+      Authorization: "Bearer " + localStorage.getItem("token")
+    };
     // 使用 onchange 函数监听内容的变化，并实时更新到 state 中
     this.editor.customConfig.onchange = html => {
       this.setState({
