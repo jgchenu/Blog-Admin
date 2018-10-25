@@ -106,5 +106,15 @@
     "less": "2.7.3",
     "less-loader": "^4.1.0"
   },
-  "homepage":"." 
+  "homepage": ".",
+  "proxy": {
+    "/api/": {
+      "target": "http://localhost:8000",
+      "changeOrigin": true
+    },
+    "/upload": {
+      "target": "http://localhost:8000",
+      "changeOrigin": true
+    }
+  }
 }

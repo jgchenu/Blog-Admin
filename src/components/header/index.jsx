@@ -5,9 +5,7 @@ import history from "../../router/history";
 import routes from "../../router/routes";
 const { Header } = Layout;
 class MyHeader extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+
   state = {};
   goBack = () => {
     history.goBack();
