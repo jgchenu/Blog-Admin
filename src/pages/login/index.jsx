@@ -15,7 +15,6 @@ class Login extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log(values);
         this.props.login(values);
       }
     });

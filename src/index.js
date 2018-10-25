@@ -6,7 +6,7 @@ import thunk from "redux-thunk";
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware, compose } from "redux";
 import reducer from "./reducer";
-import registerServiceWorker from './registerServiceWorker';
+// import registerServiceWorker from './registerServiceWorker';
 import './styles/media.less'
 import './styles/editor.less'
 import axios from './axios/index';
@@ -22,4 +22,4 @@ ReactDOM.render(
 <Provider store={store}>
     <Router />
 </Provider>, document.getElementById('root'));
-registerServiceWorker();
+// registerServiceWorker();

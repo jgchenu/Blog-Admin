@@ -35,13 +35,11 @@ export default class MyCard extends React.Component {
           method: "delete"
         }).then(res => {
           if (res.data.code === 200) {
-            console.log("delete", res);
             this.props.onLoadData(10);
           }
         });
       },
       onCancel:()=> {
-        console.log("Cancel");
       }
     });
   };

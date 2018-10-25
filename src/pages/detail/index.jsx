@@ -41,7 +41,6 @@ class Detail extends React.Component {
       method: "get",
       url: `${article}/${this.state.id}`
     }).then(res => {
-      console.log(res.data.data);
       this.setState({
         indexList: res.data.data,
         data: res.data.data.comments
