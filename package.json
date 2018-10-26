@@ -106,7 +106,7 @@
     "less": "2.7.3",
     "less-loader": "^4.1.0"
   },
-  "homepage": ".",
+  "homepage": "http://admin.jgchen.xin",
   "proxy": {
     "/api/": {
       "target": "http://localhost:8000",
