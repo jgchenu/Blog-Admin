@@ -40,9 +40,9 @@ class MyTag extends React.Component {
           color={this.tagColors[index % 11]}
           key={index}
           style={{
-            height: `${(item.count + 1) * 10}px`,
-            lineHeight: `${(item.count + 1) * 10}px`,
-            fontSize: `${(item.count + 1) * 4}px`,
+            height: `${(item.count) +30}px`,
+            lineHeight:  `${(item.count) +30}px`,
+            fontSize: `${(item.count*0.5) +10}px`,
             borderRadius: "8%"
           }}
         >

@@ -18,6 +18,7 @@ table th {
 /* blockquote 样式 */
 
 blockquote {
+    overflow: scroll;
     display: block;
     border-left: 8px solid #d0e5f2;
     padding: 5px 10px;
@@ -37,12 +38,19 @@ code {
     border-radius: 3px;
     padding: 3px 5px;
     margin: 0 3px;
+    font-size: 13px;
 }
 
-// pre {
-//     &:extend(code);
-// }
-
+pre {
+    &:extend(code);
+    display: block !important;
+    overflow: scroll !important;
+    &::-webkit-scrollbar { width: 0 !important }
+}
+figure{
+    overflow: scroll !important;
+    &::-webkit-scrollbar { width: 0 !important }
+}
 pre code {
     display: block;
 }
