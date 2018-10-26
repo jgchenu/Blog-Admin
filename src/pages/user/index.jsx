@@ -1,12 +1,12 @@
 import React from "react";
 import { Button, message, Upload, Icon } from "antd";
-import { updateAvatar,updateInfo } from "@/redux/admin.redux";
+import { updateAvatar, updateInfo } from "@/redux/admin.redux";
 import { connect } from "react-redux";
 import E from "wangeditor";
 import "./index.less";
 @connect(
   state => state.admin,
-  { updateAvatar,updateInfo }
+  { updateAvatar, updateInfo }
 )
 class EditUser extends React.Component {
   constructor(props, context) {
@@ -79,11 +79,7 @@ class EditUser extends React.Component {
           listType="picture-card"
           className="avatar-uploader"
           showUploadList={false}
-          action={
-            process.env.NODE_ENV === "development"
-              ? "http://localhost:8000/api/user/editAvatar"
-              : "/api/user/editAvatar"
-          }
+          action="/api/user/editAvatar"
           headers={{
             Authorization: "Bearer " + localStorage.getItem("token")
           }}

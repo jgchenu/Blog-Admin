@@ -75,10 +75,7 @@ class WriteArticle extends React.Component {
   };
   initEdit() {
     const elem = this.refs.editorElem;
-    const uploadUrl =
-      process.env.NODE_ENV === "development"
-        ? "http://localhost:8000/api/article/upload"
-        : "/api/article/upload";
+    const uploadUrl = "/api/article/upload";
     this.editor = new E(elem);
     this.editor.customConfig.uploadFileName = "avatar";
     this.editor.customConfig.uploadImgServer = uploadUrl;
