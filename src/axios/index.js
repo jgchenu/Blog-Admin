@@ -34,7 +34,7 @@ instance.interceptors.response.use((res) => {
     NProgress.done();
     if (error.response.status === 401) {
         localStorage.clear();
-        message.error(error.response.message, () => {
+        message.error('权限过期失败，请重新登录', 1, () => {
             history.push('/login')
         });
     } else if (error.response.status === 500) {
