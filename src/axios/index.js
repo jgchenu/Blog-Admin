@@ -15,6 +15,7 @@ const instance = axios.create({
         'Content-Type': 'application/json;charset=UTF-8'
     }
 });
+
 instance.interceptors.request.use((config) => {
     NProgress.start()
     const token = localStorage.getItem('token');
