@@ -46,7 +46,7 @@ export function login(data) {
             message.success(res.data.message, 1);
             if (res.data.code === 200) {
                 localStorage.setItem("token", res.data.token);
-                localStorage.setItem("token_exp", new Date().getTime());
+                localStorage.setItem("token_exp", new Date().getTime()+24*60*60*1000);
                 dispatch(infoAdminData(res.data));
                 history.push("/admin/home");
             }
