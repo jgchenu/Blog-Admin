@@ -2,7 +2,7 @@ import React from "react";
 import E from "wangeditor";
 import { Button, List, Avatar, Pagination, Card, message } from "antd";
 import api from "@/lib/api";
-import getPage from "@/lib/getPage";
+import getParam from "@/lib/getParam";
 import "./index.less";
 import { Object } from "core-js";
 import history from "@/router/history";
@@ -21,7 +21,7 @@ class MessageBoard extends React.Component {
     };
   }
   componentWillMount() {
-    this.page = getPage();
+    this.page = getParam('page');
     this.loadData(this.page, 10);
   }
   componentDidMount() {
@@ -58,7 +58,7 @@ class MessageBoard extends React.Component {
   onChange = (page, pageSize) => {
     document.scrollingElement.scrollTop = 0;
     history.push(`/admin/messageBoard/?page=${page}`);
-    this.page = getPage();
+    this.page = getParam('page');
     this.loadData(page, pageSize);
   };
   handleRenderItem = item => {

@@ -2,7 +2,7 @@ import React from "react";
 import "./index.less";
 import MyCard from "./container/myCard";
 import api from "@/lib/api";
-import getPage from "@/lib/getPage";
+import getParam from "@/lib/getParam";
 import history from "@/router/history";
 import { Pagination, Input } from "antd";
 const Search = Input.Search;
@@ -13,11 +13,10 @@ class Article extends React.Component {
     allCount: 0
   };
   componentWillMount() {
-    this.page = getPage();
     this.loadData();
   }
   loadData = () => {
-    let params = { page: this.page, keyword: this.keyword };
+    let params = { page:getParam('page'), keyword: getParam('keyword') };
     this.$axios({
       url: article,
       method: "get",
@@ -31,15 +30,12 @@ class Article extends React.Component {
   };
   onChange = page => {
     document.scrollingElement.scrollTop = 0;
-    history.push(`/admin/article/?page=${page}`);
-    this.page = getPage();
+    history.push(`/admin/article/?page=${page}&keyword=${getParam('keyword')}`);
     this.loadData();
   };
-  handleSearch = value => {
-    this.keyword = value;
+  handleSearch = keyword => {
     document.scrollingElement.scrollTop = 0;
-    history.push(`/admin/article/?page=1`);
-    this.page = getPage();
+    history.push(`/admin/article/?page=1&keyword=${keyword}`);
     this.loadData();
   };
   render() {
@@ -60,7 +56,7 @@ class Article extends React.Component {
         </div>
         <div className="footer">
           <Pagination
-            defaultCurrent={parseInt(this.page, 10)}
+            defaultCurrent={parseInt(getParam('page'), 10)}
             total={this.state.allCount}
             onChange={this.onChange}
           />

@@ -1,7 +1,7 @@
 import React from "react";
 import { List, Avatar, Pagination } from "antd";
 import api from "@/lib/api";
-import getPage from "@/lib/getPage";
+import getParam from "@/lib/getParam";
 import history from "@/router/history";
 import "./index.less";
 const { articleComment } = api;
@@ -14,7 +14,7 @@ class Comment extends React.Component {
     };
   }
   componentWillMount() {
-    this.page = getPage();
+    this.page = getParam('page');
     this.loadData(this.page, 10);
   }
 
@@ -37,7 +37,7 @@ class Comment extends React.Component {
   onChange = (page, pageSize) => {
     document.scrollingElement.scrollTop = 0;
     history.push(`/admin/comment/?page=${page}`);
-    this.page = getPage();
+    this.page = getParam('page');
     this.loadData(page, pageSize);
   };
   handleToDetail = id => {
