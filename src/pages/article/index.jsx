@@ -3,8 +3,9 @@ import "./index.less";
 import MyCard from "./container/myCard";
 import api from "@/lib/api";
 import getPage from "@/lib/getPage";
-import { Pagination } from "antd";
 import history from "@/router/history";
+import { Pagination, Input } from "antd";
+const Search = Input.Search;
 const { article } = api;
 class Article extends React.Component {
   state = {
@@ -13,37 +14,48 @@ class Article extends React.Component {
   };
   componentWillMount() {
     this.page = getPage();
-    this.loadData(10);
+    this.loadData();
   }
-  loadData = (pageSize = 10) => {
+  loadData = () => {
+    let params = { page: this.page, keyword: this.keyword };
     this.$axios({
       url: article,
       method: "get",
-      params: {
-        page: this.page,
-        pageSize
-      }
+      params
     }).then(res => {
-       ;
       this.setState({
         indexList: res.data.data,
         allCount: res.data.count
       });
     });
   };
-
-  onChange = (page, pageSize) => {
+  onChange = page => {
     document.scrollingElement.scrollTop = 0;
     history.push(`/admin/article/?page=${page}`);
     this.page = getPage();
-    this.loadData(pageSize);
+    this.loadData();
+  };
+  handleSearch = value => {
+    this.keyword = value;
+    document.scrollingElement.scrollTop = 0;
+    history.push(`/admin/article/?page=1`);
+    this.page = getPage();
+    this.loadData();
   };
   render() {
     return (
       <div className="home">
+        <div className="homeSearch">
+          <Search
+            placeholder="搜索文章"
+            size="large"
+            onSearch={this.handleSearch}
+            enterButton
+          />
+        </div>
         <div className="lists">
           {this.state.indexList.map((item, index) => (
-            <MyCard list={item} key={index} onLoadData={this.loadData} />
+            <MyCard list={item} key={index} />
           ))}
         </div>
         <div className="footer">
