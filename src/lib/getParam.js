@@ -9,6 +9,9 @@ export default (key) => {
             newArr.push(...item.split('='))
         })
         let index = newArr.indexOf(key);
+        if (!~index) {
+            return value;
+        }
         value = newArr[index + 1];
         console.log(newArr)
     }
