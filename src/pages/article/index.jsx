@@ -6,33 +6,29 @@ import getParam from "@/lib/getParam";
 import history from "@/router/history";
 import { Pagination, Input } from "antd";
 const Search = Input.Search;
-const { article } = api;
 class Article extends React.Component {
   state = {
     indexList: [],
     allCount: 0
   };
-  componentWillMount() {
-    this.loadData();
+  componentDidMount() {
+    this.loadData()
   }
-  loadData = () => {
-    let params = { page:getParam('page'), keyword: getParam('keyword') };
-    this.$axios({
-      url: article,
-      method: "get",
-      params
-    }).then(res => {
+  loadData = async () => {
+    let params = { page: getParam('page'), keyword: getParam('keyword') }
+    const res = await api.getArticles(params)
+    if (res.data.code === 0) {
       this.setState({
         indexList: res.data.data,
         allCount: res.data.count
-      });
-    });
-  };
+      })
+    }
+  }
   onChange = page => {
-    document.scrollingElement.scrollTop = 0;
-    history.push(`/admin/article/?page=${page}&keyword=${getParam('keyword')}`);
-    this.loadData();
-  };
+    document.scrollingElement.scrollTop = 0
+    history.push(`/admin/article/?page=${page}&keyword=${getParam('keyword')}`)
+    this.loadData()
+  }
   handleSearch = keyword => {
     document.scrollingElement.scrollTop = 0;
     history.push(`/admin/article/?page=1&keyword=${keyword}`);

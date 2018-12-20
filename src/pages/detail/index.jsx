@@ -1,63 +1,46 @@
-import React from "react";
-import MyTag from "@/components/myTag";
-import E from "wangeditor";
-import "./index.less";
-import { Card, Button, Avatar, message, List } from "antd";
-import api from "@/lib/api";
-const { article, comment } = api;
-
+import React from 'react'
+import MyTag from '@/components/myTag'
+import E from 'wangeditor'
+import './index.less'
+import { Card, Button, Avatar, message, List } from 'antd'
+import api from '@/lib/api'
 class Detail extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      indexList: { content: { value: "" } },
+      indexList: { content: { value: '' } },
       id: this.props.match.params.id,
-      editorContent: "",
-      allCount: 10,
+      editorContent: '',
+      allCount: 0,
       data: [],
       applyPerson: {},
-      commentId: ""
-    };
-  }
-  componentWillMount() {
-    this.loadData();
+      commentId: ''
+    }
   }
   componentDidMount() {
-    this.initEdit();
+    this.loadData()
+    this.initEdit()
   }
-  loadData = () => {
-    // //加载评论数据
-    // this.$axios({
-    //   url: `${comment}/board`,
-    //   method: "get"
-    // }).then(res => {
-    //    ;
-    //   if (res.data.code === 200) {
-    //     this.setState({});
-    //   }
-    // });
-    //加载文章的数据
-    this.$axios({
-      method: "get",
-      url: `${article}/${this.state.id}`
-    }).then(res => {
+  loadData = async () => {
+    const res = await api.getArticleById(this.state.id)
+    if (res.data.code === 0) {
       this.setState({
         indexList: res.data.data,
         data: res.data.data.comments
-      });
-    });
-  };
+      })
+    }
+  }
   initEdit = () => {
-    const elem = this.refs.editorElem;
-    this.editor = new E(elem);
+    const elem = this.refs.editorElem
+    this.editor = new E(elem)
     // 使用 onchange 函数监听内容的变化，并实时更新到 state 中
     this.editor.customConfig.onchange = html => {
       this.setState({
         editorContent: html
-      });
-    };
-    this.editor.create();
-  };
+      })
+    }
+    this.editor.create()
+  }
   handleRenderItem = item => {
     return (
       <div>
@@ -106,55 +89,50 @@ class Detail extends React.Component {
           </List.Item>
         ))}
       </div>
-    );
-  };
+    )
+  }
   handleApply = (applyPerson, commentId) => {
-    document.scrollingElement.scrollTop =
-      document.scrollingElement.scrollHeight;
+    document.scrollingElement.scrollTop = document.scrollingElement.scrollHeight
     this.setState({
       applyPerson,
       commentId
-    });
-    this.editor.txt.html(this.state.editorContent);
-  };
+    })
+    this.editor.txt.html(this.state.editorContent)
+  }
   handleCancelApply = () => {
     this.setState({
       applyPerson: {},
-      commentId: ""
-    });
-  };
-  handleSubmit = () => {
+      commentId: ''
+    })
+  }
+  handleSubmit = async () => {
     let requestData = {
       sayId: 1,
       commentType: 1,
       content: this.state.editorContent,
       articleId: this.state.indexList.id
-    };
+    }
     if (this.state.commentId) {
       Object.assign(requestData, {
         toId: this.state.applyPerson.id,
         commentId: this.state.commentId
-      });
+      })
     }
-    this.$axios({
-      url: comment,
-      method: "post",
+    const res = await api.subComment({
       data: requestData
-    }).then(res => {
-       ;
-      if (res.data.code === 200) {
-        message.success("发布成功", 1, () => {
-          this.handleCancelApply();
-          this.loadData();
-          this.editor.txt.clear();
-        });
-      }
-    });
-  };
+    })
+
+    if (res.data.code === 0) {
+      this.handleCancelApply()
+      this.loadData()
+      this.editor.txt.clear()
+      message.success('发布成功')
+    }
+  }
 
   render() {
     let content =
-      this.state.indexList.content && this.state.indexList.content.value;
+      this.state.indexList.content && this.state.indexList.content.value
     return (
       <div id="myDetail">
         <h2 className="title">{this.state.indexList.title}</h2>
@@ -184,13 +162,13 @@ class Detail extends React.Component {
                   <a onClick={this.handleCancelApply}>&nbsp;&nbsp;取消</a>
                 </div>
               ) : (
-                "评论"
+                '评论'
               )
             }
             bordered={false}
-            style={{ width: "100%" }}
+            style={{ width: '100%' }}
           >
-            <div ref="editorElem" style={{ textAlign: "left" }} />
+            <div ref="editorElem" style={{ textAlign: 'left' }} />
             <div className="button">
               <Button type="primary" onClick={this.handleSubmit}>
                 发布
@@ -199,8 +177,8 @@ class Detail extends React.Component {
           </Card>
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default Detail;
+export default Detail

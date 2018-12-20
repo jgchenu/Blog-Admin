@@ -1,48 +1,39 @@
-import React from "react";
-import { List, Avatar, Pagination } from "antd";
-import api from "@/lib/api";
-import getParam from "@/lib/getParam";
-import history from "@/router/history";
-import "./index.less";
-const { articleComment } = api;
+import React from 'react'
+import { List, Avatar, Pagination } from 'antd'
+import api from '@/lib/api'
+import getParam from '@/lib/getParam'
+import history from '@/router/history'
+import './index.less'
 class Comment extends React.Component {
   constructor(props, context) {
-    super(props, context);
+    super(props, context)
     this.state = {
       allCount: 0,
       data: []
-    };
+    }
   }
   componentWillMount() {
-    this.page = getParam('page');
-    this.loadData(this.page, 10);
+    this.loadData()
   }
 
-  loadData = (page = 1, pageSize = 10) => {
-    this.$axios({
-      url: articleComment,
-      method: "get",
-      params: {
-        page,
-        pageSize
-      }
-    }).then(res => {
-       ;
+  loadData = async () => {
+    const params = { page: getParam('page') }
+    const res = await api.getCommentsLinkArticles(params)
+    if (res.data.code === 0) {
       this.setState({
         indexList: res.data.data,
         allCount: res.data.count
-      });
-    });
-  };
-  onChange = (page, pageSize) => {
-    document.scrollingElement.scrollTop = 0;
-    history.push(`/admin/comment/?page=${page}`);
-    this.page = getParam('page');
-    this.loadData(page, pageSize);
-  };
+      })
+    }
+  }
+  onChange = (page) => {
+    document.scrollingElement.scrollTop = 0
+    history.push(`/admin/comment/?page=${page}`)
+    this.loadData()
+  }
   handleToDetail = id => {
-    history.push(`/admin/detail/${id}`);
-  };
+    history.push(`/admin/detail/${id}`)
+  }
   handleRenderItem = item => {
     return (
       <List.Item className="comment">
@@ -63,9 +54,8 @@ class Comment extends React.Component {
           }
         />
       </List.Item>
-    );
-  };
-  
+    )
+  }
 
   render() {
     return (
@@ -78,14 +68,14 @@ class Comment extends React.Component {
         />
         <div className="footer">
           <Pagination
-            defaultCurrent={parseInt(this.page, 10)}
+            defaultCurrent={parseInt(getParam('page'),10)}
             total={this.state.allCount}
             onChange={this.onChange}
           />
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default Comment;
+export default Comment
