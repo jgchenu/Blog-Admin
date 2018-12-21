@@ -1,100 +1,95 @@
-import React from "react";
-import { Input, Button, Tag, Tooltip, Icon, message } from "antd";
-import api from "@/lib/api.js";
-import E from "wangeditor";
-import "./index.less";
-import unique from "@/lib/unique";
+import React from 'react'
+import { Input, Button, Tag, Tooltip, Icon, message } from 'antd'
+import api from '@/lib/api.js'
+import E from 'wangeditor'
+import './index.less'
+import unique from '@/lib/unique'
 
-const { article } = api;
 class WriteArticle extends React.Component {
   constructor(props, context) {
-    super(props, context);
+    super(props, context)
     this.state = {
-      editorContent: "",
+      editorContent: '',
       tags: [],
       inputVisible: false,
-      inputValue: "",
-      title: ""
-    };
-  }
-  handleClose = removedTag => {
-    const tags = this.state.tags.filter(tag => tag !== removedTag);
-    this.setState({ tags });
-  };
-
-  showInput = () => {
-    this.setState({ inputVisible: true }, () => this.input.focus());
-  };
-
-  handleInputChange = e => {
-    this.setState({ inputValue: e.target.value });
-  };
-  handleTitleInput = e => {
-    this.setState({ title: e.target.value });
-  };
-  handleInputConfirm = () => {
-    const state = this.state;
-    const inputValue = state.inputValue;
-    let tags = state.tags;
-    if (inputValue && tags.indexOf(inputValue) === -1) {
-      tags = [...tags, inputValue];
+      inputValue: '',
+      title: ''
     }
-    this.setState({
-      tags,
-      inputVisible: false,
-      inputValue: ""
-    });
-  };
-  saveInputRef = input => (this.input = input);
-  handleSubmit = () => {
-    this.$axios({
-      url: article,
-      method: "post",
-      data: {
-        content: this.state.editorContent,
-        title: this.state.title,
-        tags: unique(this.state.tags)
-      }
-    }).then(res => {
-      if (res.data.code === 200) {
-        message.success("发布成功", 1, () => {
-          this.resetData();
-        });
-      }
-    });
-  };
-  resetData = () => {
-    this.setState({
-      editorContent: "",
-      tags: [],
-      inputVisible: false,
-      inputValue: "",
-      title: ""
-    });
-    this.editor.txt.clear();
-  };
+  }
+  componentDidMount() {
+    this.initEdit()
+  }
   initEdit() {
-    const elem = this.refs.editorElem;
-    const uploadUrl = "/api/article/upload";
-    this.editor = new E(elem);
-    this.editor.customConfig.uploadFileName = "avatar";
-    this.editor.customConfig.uploadImgServer = uploadUrl;
+    const elem = this.refs.editorElem
+    const uploadUrl = '/api/uploadArticleImage'
+    this.editor = new E(elem)
+    this.editor.customConfig.uploadFileName = 'upload'
+    this.editor.customConfig.uploadImgServer = uploadUrl
     this.editor.customConfig.uploadImgHeaders = {
-      Authorization: "Bearer " + localStorage.getItem("token")
-    };
+      Authorization: 'Bearer ' + localStorage.getItem('token')
+    }
     // 使用 onchange 函数监听内容的变化，并实时更新到 state 中
     this.editor.customConfig.onchange = html => {
       this.setState({
         editorContent: html
-      });
-    };
-    this.editor.create();
+      })
+    }
+    this.editor.create()
   }
-  componentDidMount() {
-    this.initEdit();
+
+  handleClose = removedTag => {
+    const tags = this.state.tags.filter(tag => tag !== removedTag)
+    this.setState({ tags })
+  }
+
+  showInput = () => {
+    this.setState({ inputVisible: true }, () => this.input.focus())
+  }
+
+  handleInputChange = e => {
+    this.setState({ inputValue: e.target.value })
+  }
+  handleTitleInput = e => {
+    this.setState({ title: e.target.value })
+  }
+  handleInputConfirm = () => {
+    const state = this.state
+    const inputValue = state.inputValue
+    let tags = state.tags
+    if (inputValue && tags.indexOf(inputValue) === -1) {
+      tags = [...tags, inputValue]
+    }
+    this.setState({
+      tags,
+      inputVisible: false,
+      inputValue: ''
+    })
+  }
+  saveInputRef = input => (this.input = input)
+  handleSubmit = async () => {
+    const data = {
+      content: this.state.editorContent,
+      title: this.state.title,
+      tags: unique(this.state.tags)
+    }
+    const res = await api.subArticle(data)
+    if (res.data.code === 0) {
+      message.success('发布成功')
+      this.resetData()
+    }
+  }
+  resetData = () => {
+    this.setState({
+      editorContent: '',
+      tags: [],
+      inputVisible: false,
+      inputValue: '',
+      title: ''
+    })
+    this.editor.txt.clear()
   }
   render() {
-    const { tags, inputVisible, inputValue, title } = this.state;
+    const { tags, inputVisible, inputValue, title } = this.state
     return (
       <div className="writeArticle">
         <div className="header">
@@ -107,12 +102,12 @@ class WriteArticle extends React.Component {
           />
         </div>
         <div className="content">
-          <div ref="editorElem" style={{ textAlign: "left" }} />
+          <div ref="editorElem" style={{ textAlign: 'left' }} />
         </div>
         <div className="addTag">
           <h2>添加新标签</h2>
           {tags.map(tag => {
-            const isLongTag = tag.length > 20;
+            const isLongTag = tag.length > 20
             const tagElem = (
               <Tag
                 key={tag}
@@ -121,14 +116,14 @@ class WriteArticle extends React.Component {
               >
                 {isLongTag ? `${tag.slice(0, 20)}...` : tag}
               </Tag>
-            );
+            )
             return isLongTag ? (
               <Tooltip title={tag} key={tag}>
                 {tagElem}
               </Tooltip>
             ) : (
               tagElem
-            );
+            )
           })}
           {inputVisible && (
             <Input
@@ -145,7 +140,7 @@ class WriteArticle extends React.Component {
           {!inputVisible && (
             <Tag
               onClick={this.showInput}
-              style={{ background: "#fff", borderStyle: "dashed" }}
+              style={{ background: '#fff', borderStyle: 'dashed' }}
             >
               <Icon type="plus" /> 添加新标签
             </Tag>
@@ -157,8 +152,8 @@ class WriteArticle extends React.Component {
           </Button>
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default WriteArticle;
+export default WriteArticle

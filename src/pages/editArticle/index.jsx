@@ -4,7 +4,6 @@ import api from '@/lib/api.js'
 import unique from '@/lib/unique'
 import E from 'wangeditor'
 import './index.less'
-const { article } = api
 class WriteArticle extends React.Component {
   constructor(props, context) {
     super(props, context)
@@ -16,6 +15,10 @@ class WriteArticle extends React.Component {
       title: '',
       id: this.props.match.params.id
     }
+  }
+  componentDidMount() {
+    this.initEdit()
+    this.loadData()
   }
   handleClose = removedTag => {
     const tags = this.state.tags.filter(tag => tag !== removedTag)
@@ -55,14 +58,14 @@ class WriteArticle extends React.Component {
     const id = this.state.id
     const res = await api.editArticleById({ id, data })
     if (res.data.code === 0) {
-      message.success('更新成功', 1)
+      message.success('更新成功')
     }
   }
   initEdit = () => {
     const elem = this.refs.editorElem
-    const uploadUrl = '/api/article/upload'
+    const uploadUrl = '/api/uploadArticleImage'
     this.editor = new E(elem)
-    this.editor.customConfig.uploadFileName = 'avatar'
+    this.editor.customConfig.uploadFileName = 'upload'
     this.editor.customConfig.uploadImgServer = uploadUrl
     this.editor.customConfig.uploadImgHeaders = {
       Authorization: 'Bearer ' + localStorage.getItem('token')
@@ -75,11 +78,9 @@ class WriteArticle extends React.Component {
     }
     this.editor.create()
   }
-  loadData = () => {
-    this.$axios({
-      method: 'get',
-      url: `${article}/${this.state.id}`
-    }).then(res => {
+  loadData = async () => {
+    const res = await api.getArticleById(this.state.id)
+    if (res.data.code === 0) {
       let data = res.data.data
       this.setState(
         {
@@ -91,12 +92,9 @@ class WriteArticle extends React.Component {
           this.editor.txt.html(this.state.editorContent)
         }
       )
-    })
+    }
   }
-  componentDidMount() {
-    this.initEdit()
-    this.loadData()
-  }
+
   render() {
     const { tags, inputVisible, inputValue, title } = this.state
     return (

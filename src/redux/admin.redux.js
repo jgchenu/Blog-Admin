@@ -1,8 +1,8 @@
-import axios from "@/axios/index";
 import {
     message
 } from "antd";
 import history from '@/router/history'
+import api from '@/lib/api'
 //action
 const LOGOUT = "admin/logout";
 const LOAD_DATA = "admin/loadData";
@@ -37,20 +37,15 @@ export function admin(state = initState, action) {
 
 //登录
 export function login(data) {
-    return dispatch => {
-        axios({
-            url: "/admin/login",
-            method: "post",
-            data
-        }).then(res => {
+    return async (dispatch) => {
+        const res = await api.adminLogin(data);
+        if (res.data.code === 0) {
             message.success(res.data.message, 1);
-            if (res.data.code === 200) {
-                localStorage.setItem("token", res.data.token);
-                localStorage.setItem("token_exp", new Date().getTime()+24*60*60*1000);
-                dispatch(infoAdminData(res.data));
-                history.push("/admin/home");
-            }
-        });
+            localStorage.setItem("token", res.data.token);
+            localStorage.setItem("token_exp", new Date().getTime() + 24 * 60 * 60 * 1000);
+            dispatch(infoAdminData(res.data));
+            history.push("/admin/home");
+        }
     };
 }
 //登出清除
@@ -64,17 +59,13 @@ export function logout() {
 }
 //获取个人信息
 export function getAdminInfo() {
-    return dispatch => {
-        axios({
-            url: "/admin",
-            methods: "get"
-        }).then(res => {
-            if (res.data.code === 200) {
-                dispatch(infoAdminData(res.data.data));
-            } else {
-                message.warn(res.data.message, 1);
-            }
-        });
+    return async (dispatch) => {
+        const res = await api.getAdminInfo();
+        if (res.data.code === 0) {
+            dispatch(infoAdminData(res.data.data));
+        } else {
+            message.warn(res.data.message, 1);
+        }
     };
 }
 //更新用户头像
@@ -83,18 +74,12 @@ export function updateAvatar(data) {
     return infoAdminData(data)
 }
 //更新用户信息
-export function updateInfo(data) {
-    return dispatch => {
-        axios({
-            url: '/admin',
-            method: "put",
-            data
-        }).then(res => {
-            if (res.data.code === 200) {
-                message.success("更新成功", 1);
-                dispatch(infoAdminData(res.data.data))
-            }
-        });
+export function updateAdminInfo(data) {
+    return async (dispatch) => {
+        const res = await api.updateAdminInfo(data)
+        if (res.data.code === 0) {
+            message.success("更新成功", 1);
+            dispatch(infoAdminData(res.data.data))
+        }
     }
-
 }

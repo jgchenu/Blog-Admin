@@ -1,47 +1,51 @@
-import React from "react";
-import "./index.less";
-import MyCard from "@/pages/article/container/myCard";
-import api from "@/lib/api";
-import getParam from "@/lib/getParam";
-import { Pagination } from "antd";
-import history from "@/router/history";
-const {  tag } = api;
+import React from 'react'
+import './index.less'
+import MyCard from '@/pages/article/container/myCard'
+import api from '@/lib/api'
+import getParam from '@/lib/getParam'
+import { Pagination } from 'antd'
+import history from '@/router/history'
 class Article extends React.Component {
   state = {
     indexList: [],
     allCount: 0,
     name: this.props.match.params.name
-  };
-  componentWillMount() {
-    this.page = getParam('page');
-    this.loadData(this.page, 10,this.state.name);
   }
-  loadData = (page = 1, pageSize = 10, name = "测试") => {
-      this.getTagArticle(page, pageSize, name);
-  };
-  getTagArticle = (page, pageSize = 10, name) => {
-    this.$axios({
-      url: `${tag}/${name}`,
-      method: "get",
-      params: {
-        page,
-        pageSize
+  componentDidMount() {
+    this.setState(
+      {
+        page: getParam('page')
+      },
+      () => {
+        this.loadData()
       }
-    }).then(res => {
-       ;
+    )
+  }
+  loadData = async () => {
+    const params = { page: getParam('page') }
+    const res = await api.getArticlesByTagName({
+      name: this.state.name,
+      params
+    })
+    if (res.data.code === 0) {
       this.setState({
         indexList: res.data.data,
         allCount: res.data.count
-      });
-    });
-  };
-
-  onChange = (page, pageSize) => {
-    document.scrollingElement.scrollTop = 0;
-    history.push(`/admin/tagArticle/${this.state.name}?page=${page}`);
-    this.page = getParam('page');
-    this.loadData(page, pageSize,this.state.name);
-  };
+      })
+    }
+  }
+  onChange = page => {
+    document.scrollingElement.scrollTop = 0
+    history.push(`/tagArticle/${this.state.name}?page=${page}`)
+    this.setState(
+      {
+        page: getParam('page')
+      },
+      () => {
+        this.loadData()
+      }
+    )
+  }
   render() {
     return (
       <div className="home">
@@ -52,14 +56,14 @@ class Article extends React.Component {
         </div>
         <div className="footer">
           <Pagination
-            defaultCurrent={parseInt(this.page, 10)}
+            defaultCurrent={parseInt(getParam('page'), 10)}
             total={this.state.allCount}
             onChange={this.onChange}
           />
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default Article;
+export default Article

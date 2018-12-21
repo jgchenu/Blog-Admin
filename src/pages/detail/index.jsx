@@ -47,7 +47,7 @@ class Detail extends React.Component {
         <List.Item className="comment">
           <List.Item.Meta
             avatar={<Avatar src={item.sayUser.avatar} />}
-            title={<a>{item.sayUser.userName}</a>}
+            title={<a>{item.sayUser.userName}{item.sayUser.authority===1?'【博主】':'【用户】'}</a>}
             description={
               <div>
                 <div dangerouslySetInnerHTML={{ __html: item.content }} />
@@ -65,13 +65,13 @@ class Detail extends React.Component {
           <List.Item className="apply" key={index}>
             <List.Item.Meta
               avatar={<Avatar src={subItem.applySayUser.avatar} />}
-              title={<a>{subItem.applySayUser.userName}</a>}
+              title={<a>{subItem.applySayUser.userName}{subItem.applySayUser.authority===1?'【博主】':'【用户】'}</a>}
               description={
                 <div>
                   <strong>
                     @ <Avatar src={subItem.applyToUser.avatar} />
                     &nbsp;
-                    {subItem.applyToUser.userName}
+                    {subItem.applyToUser.userName}{subItem.applyToUser.authority===1?'【博主】':'【用户】'}
                     &nbsp;&nbsp;&nbsp;
                   </strong>
                   <div dangerouslySetInnerHTML={{ __html: subItem.content }} />
@@ -121,7 +121,6 @@ class Detail extends React.Component {
     const res = await api.subComment({
       data: requestData
     })
-
     if (res.data.code === 0) {
       this.handleCancelApply()
       this.loadData()

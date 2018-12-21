@@ -1,73 +1,60 @@
-import React from "react";
-import E from "wangeditor";
-import { Button, List, Avatar, Pagination, Card, message } from "antd";
-import api from "@/lib/api";
-import getParam from "@/lib/getParam";
-import "./index.less";
-import { Object } from "core-js";
-import history from "@/router/history";
-
-const { comment } = api;
+import React from 'react'
+import E from 'wangeditor'
+import { Button, List, Avatar, Pagination, Card, message } from 'antd'
+import api from '@/lib/api'
+import getParam from '@/lib/getParam'
+import './index.less'
+import { Object } from 'core-js'
+import history from '@/router/history'
 
 class MessageBoard extends React.Component {
   constructor(props, context) {
-    super(props, context);
+    super(props, context)
     this.state = {
-      editorContent: "",
-      allCount: 10,
+      editorContent: '',
+      allCount: 0,
       indexList: [],
       applyPerson: {},
-      commentId: ""
-    };
-  }
-  componentWillMount() {
-    this.page = getParam('page');
-    this.loadData(this.page, 10);
+      commentId: ''
+    }
   }
   componentDidMount() {
-    this.initEdit();
+    this.loadData()
+    this.initEdit()
   }
 
-  loadData = (page = 1, pageSize = 10) => {
-    this.$axios({
-      url: `${comment}/board`,
-      method: "get",
-      params: {
-        page,
-        pageSize
-      }
-    }).then(res => {
-       ;
+  loadData = async () => {
+    const res = await api.getBoardComments({ page: getParam('page') })
+    if (res.data.code === 0) {
       this.setState({
         indexList: res.data.data,
         allCount: res.data.count
-      });
-    });
-  };
+      })
+    }
+  }
   initEdit = () => {
-    const elem = this.refs.editorElem;
-    this.editor = new E(elem);
+    const elem = this.refs.editorElem
+    this.editor = new E(elem)
     // 使用 onchange 函数监听内容的变化，并实时更新到 state 中
     this.editor.customConfig.onchange = html => {
       this.setState({
         editorContent: html
-      });
-    };
-    this.editor.create();
-  };
-  onChange = (page, pageSize) => {
-    document.scrollingElement.scrollTop = 0;
-    history.push(`/admin/messageBoard/?page=${page}`);
-    this.page = getParam('page');
-    this.loadData(page, pageSize);
-  };
+      })
+    }
+    this.editor.create()
+  }
+  onChange = (page) => {
+    document.scrollingElement.scrollTop = 0
+    history.push(`/admin/messageBoard/?page=${page}`)
+    this.loadData()
+  }
   handleRenderItem = item => {
     return (
       <div>
         <List.Item className="comment">
           <List.Item.Meta
             avatar={<Avatar src={item.sayUser.avatar} />}
-            title={<a>{item.sayUser.userName}</a>}
+            title={<a>{item.sayUser.userName}{item.sayUser.authority===1?'【博主】':'【用户】'}</a>}
             description={
               <div>
                 <div dangerouslySetInnerHTML={{ __html: item.content }} />
@@ -85,13 +72,13 @@ class MessageBoard extends React.Component {
           <List.Item className="apply" key={index}>
             <List.Item.Meta
               avatar={<Avatar src={subItem.applySayUser.avatar} />}
-              title={<a>{subItem.applySayUser.userName}</a>}
+              title={<a>{subItem.applySayUser.userName}{subItem.applySayUser.authority===1?'【博主】':'【用户】'}</a>}
               description={
                 <div>
                   <strong>
                     @ <Avatar src={subItem.applyToUser.avatar} />
                     &nbsp;
-                    {subItem.applyToUser.userName}
+                    {subItem.applyToUser.userName}{subItem.applyToUser.authority===1?'【博主】':'【用户】'}
                     &nbsp;&nbsp;&nbsp;
                   </strong>
                   <div dangerouslySetInnerHTML={{ __html: subItem.content }} />
@@ -109,50 +96,42 @@ class MessageBoard extends React.Component {
           </List.Item>
         ))}
       </div>
-    );
-  };
+    )
+  }
   handleApply = (applyPerson, commentId) => {
-    document.scrollingElement.scrollTop =
-      document.scrollingElement.scrollHeight;
-    this.editor.txt.html(this.state.editorContent);
+    document.scrollingElement.scrollTop = document.scrollingElement.scrollHeight
+    this.editor.txt.html(this.state.editorContent)
     this.setState({
       applyPerson,
       commentId
-    });
-  };
+    })
+  }
   handleCancelApply = () => {
     this.setState({
       applyPerson: {},
-      commentId: ""
-    });
-  };
-  handleSubmit = () => {
+      commentId: ''
+    })
+  }
+  handleSubmit = async () => {
     let requestData = {
       sayId: 1,
       commentType: 2,
       content: this.state.editorContent
-    };
+    }
     if (this.state.commentId) {
       Object.assign(requestData, {
         toId: this.state.applyPerson.id,
         commentId: this.state.commentId
-      });
+      })
     }
-    this.$axios({
-      url: comment,
-      method: "post",
-      data: requestData
-    }).then(res => {
-       ;
-      if (res.data.code === 200) {
-        message.success("发布成功", 2, () => {
-          this.handleCancelApply();
-          this.loadData();
-          this.editor.txt.clear();
-        });
-      }
-    });
-  };
+    const res = await api.subComment({ data: requestData })
+    if (res.data.code === 0) {
+      this.handleCancelApply()
+      this.loadData()
+      this.editor.txt.clear()
+      message.success('发布成功')
+    }
+  }
 
   render() {
     return (
@@ -177,13 +156,13 @@ class MessageBoard extends React.Component {
                   <a onClick={this.handleCancelApply}>&nbsp;&nbsp;取消</a>
                 </div>
               ) : (
-                "评论"
+                '评论'
               )
             }
             bordered={false}
-            style={{ width: "100%" }}
+            style={{ width: '100%' }}
           >
-            <div ref="editorElem" style={{ textAlign: "left" }} />
+            <div ref="editorElem" style={{ textAlign: 'left' }} />
             <div className="button">
               <Button type="primary" onClick={this.handleSubmit}>
                 发布
@@ -200,8 +179,8 @@ class MessageBoard extends React.Component {
           />
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default MessageBoard;
+export default MessageBoard
