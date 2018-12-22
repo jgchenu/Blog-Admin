@@ -1,28 +1,27 @@
 @import '~@/styles/vars.less';
-#myDetail {
+.page-detail {
     box-sizing: border-box;
     padding: 0.1rem 0.2rem;
-    .title {
+    .page-detail-title {
         text-align: center;
         font-size: 30px;
     }
-    .content {
+    .page-detail-content {
         margin-top: 1rem;
         font-size: 16px;
         padding: 0;
         color: #000;
     }
-    .tags {
+    .page-detail-tags {
         margin-top: 1rem;
         text-align: right;
-    }
-    //评论人以及内容样式
-    .boardContent {
+    } //评论人以及内容样式
+    .page-detail-comments {
         margin-top: 1rem;
         .comment {
             border-bottom: 1px solid #dddddd;
         }
-        .applyButton {
+        .page-detail-comments-item-button {
             display: none;
             width: 28px;
             height: 28px;
@@ -34,9 +33,8 @@
             color: #000;
             cursor: pointer;
         }
-        .comment:hover,
-        .apply:hover {
-            .applyButton {
+        .page-detail-comments-item:hover {
+            .page-detail-comments-item-button {
                 display: block;
             }
         }
@@ -46,14 +44,12 @@
             strong {
                 font-weight: bolder;
             }
+        } //评论内容的padding
+        .ant-list-item {
+            padding-bottom: 0;
         }
-        //评论内容的padding
-        .ant-list-item{
-          padding-bottom: 0;
-        }
-    }
-    //编辑器以及发布按钮样式
-    .editor {
+    } //编辑器以及发布按钮样式
+    .page-detail-editor {
         margin-top: .2rem;
         .w-e-toolbar {
             background-color: #ffffff !important;
@@ -61,7 +57,7 @@
         .w-e-text-container {
             height: 140px !important;
         }
-        .button {
+        .page-detail-editor-submit-button {
             margin-top: .2rem;
             text-align: center;
         }

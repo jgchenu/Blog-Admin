@@ -1,32 +1,24 @@
-.loginBg {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    height: 100%;
-    width: 100%;
-    z-index: -1;
-}
-
-.admin {
+.page-login {
     text-align: center;
-}
-
-#adminLogin {
-    margin-top: 2rem;
-    display: inline-block;
-    padding:.5rem;
-    background-color: #ffffff;
-    box-shadow: 0 0 12px #ffffff;
-}
-
-#adminLogin .login-form {
-    min-width: 3rem;
-}
-
-#adminLogin .login-form-forgot {
-    float: right;
-}
-
-#adminLogin .login-form-button {
-    width: 100%;
+    .page-login-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        z-index: -1;
+    }
+    .page-login-content {
+        margin-top: 2rem;
+        display: inline-block;
+        padding: .5rem;
+        background-color: #ffffff;
+        box-shadow: 0 0 12px #ffffff;
+        .page-login-content-form {
+            min-width: 3rem;
+            .page-login-content-form-button {
+                width: 100%;
+            }
+        }
+    }
 }

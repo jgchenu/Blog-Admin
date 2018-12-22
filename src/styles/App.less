@@ -1,55 +1,47 @@
-@import "../styles/vars.less";
+@import '../styles/vars.less';
 .loginBg {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    height: 100%;
-    width: 100%;
-    z-index: -1;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
 }
 
-.container {
-    // background: repeat center/100% url('http://test.jgchen.xin/static/blog/3.png') ;
-    background-color: rgb(19, 195, 253);
-    min-height: 100vh;
-    
-    .left {
-        padding-top: 20px;
-        border-radius: 20px;
-        border: 1px solid @borderColor;
-        box-shadow: 0 0 2px #eeeeee;
-        margin: 20px 0px 20px 20px;
-        height:440px;
+.app-container {
+  // background: repeat center/100% url('http://test.jgchen.xin/static/blog/3.png') ;
+  background-color: rgb(19, 195, 253);
+  min-height: 100vh;
+  .app-container-left {
+    padding-top: 20px;
+    border-radius: 20px;
+    border: 1px solid @borderColor;
+    box-shadow: 0 0 2px #eeeeee;
+    margin: 20px 0px 20px 20px;
+    height: 440px;
+  }
+  .app-container-right {
+    flex: 20;
+    margin: 20px;
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 0 4px #bbbbbb;
+    background-color: transparent;
+    .app-container-right-content {
+      padding: 20px;
+      background-color: #fff;
+      &::-webkit-scrollbar {
+        width: 0 !important;
+      }
+      .ant-back-top-inner {
+        height: 40px;
+        width: 40px;
+        line-height: 40px;
+        border-radius: 50%;
+        background-color: @primary !important;
+        color: #fff;
+        text-align: center;
+        font-size: 20px;
+      }
     }
-    .right {
-        flex: 20;
-        margin: 20px;
-        border-radius: 20px 20px 0 0;
-        box-shadow: 0 0 4px #bbbbbb;
-        background-color: transparent;
-        .appContent {
-            padding: 20px;
-            background-color: #fff;
-        }
-        .mHeader {
-            display: none;
-            margin-bottom: 0.6rem;
-            background-color: rgb(0, 21, 41);
-            border-bottom: 2px solid @borderColor;
-        }
-    }
-    .appContent {
-
-        &::-webkit-scrollbar { width: 0 !important }
-        .ant-back-top-inner {
-            height: 40px;
-            width: 40px;
-            line-height: 40px;
-            border-radius: 50%;
-            background-color: @primary  !important;
-            color: #fff;
-            text-align: center;
-            font-size: 20px;
-        }
-    }
+  }
 }

@@ -1,5 +1,5 @@
 @import '~@/styles/vars.less';
-.myCard {
+.page-article-card {
     padding: 0;
     margin-bottom: 0.2rem;
     .ant-card-body {
@@ -11,14 +11,14 @@
         padding: 0;
         color: #bbbbbb;
     }
-    .cardFooter {
+    .page-article-card-footer {
         position: relative;
-        .tags {
+        .page-article-card-footer-tags {
             line-height: 24px;
         }
-        .articleDelete,
-        .articleEdit,
-        .articleDetail {
+        .page-article-card-footer-detail,
+        .page-article-card-footer-edit,
+        .page-article-card-footer-delete {
             position: absolute;
             right: 0;
             bottom: 20px;
@@ -28,10 +28,10 @@
                 color: @primary;
             }
         }
-        .articleEdit {
+        .page-article-card-footer-edit {
             right: 50px;
         }
-        .articleDetail{
+        .page-article-card-footer-detail{
             right: 100px;
         }
     }

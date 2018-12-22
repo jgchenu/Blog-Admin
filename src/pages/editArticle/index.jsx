@@ -20,6 +20,22 @@ class WriteArticle extends React.Component {
     this.initEdit()
     this.loadData()
   }
+  loadData = async () => {
+    const res = await api.getArticleById(this.state.id)
+    if (res.data.code === 0) {
+      let data = res.data.data
+      this.setState(
+        {
+          editorContent: (data.content && data.content.value) || '',
+          tags: data.tags.map(item => item.name),
+          title: data.title
+        },
+        () => {
+          this.editor.txt.html(this.state.editorContent)
+        }
+      )
+    }
+  }
   handleClose = removedTag => {
     const tags = this.state.tags.filter(tag => tag !== removedTag)
     this.setState({ tags })
@@ -78,28 +94,11 @@ class WriteArticle extends React.Component {
     }
     this.editor.create()
   }
-  loadData = async () => {
-    const res = await api.getArticleById(this.state.id)
-    if (res.data.code === 0) {
-      let data = res.data.data
-      this.setState(
-        {
-          editorContent: (data.content && data.content.value) || '',
-          tags: data.tags.map(item => item.name),
-          title: data.title
-        },
-        () => {
-          this.editor.txt.html(this.state.editorContent)
-        }
-      )
-    }
-  }
-
   render() {
     const { tags, inputVisible, inputValue, title } = this.state
     return (
-      <div className="editArticle">
-        <div className="header">
+      <div className="page-edit-article">
+        <div className="page-edit-article-header">
           <h2>更新文章</h2>
           <Input
             size="large"
@@ -108,10 +107,10 @@ class WriteArticle extends React.Component {
             value={title}
           />
         </div>
-        <div className="content">
+        <div className="page-edit-article-content">
           <div ref="editorElem" style={{ textAlign: 'left' }} />
         </div>
-        <div className="addTag">
+        <div className="page-edit-article-tags">
           <h2>添加新标签</h2>
           {tags.map(tag => {
             const isLongTag = tag.length > 20
@@ -153,7 +152,7 @@ class WriteArticle extends React.Component {
             </Tag>
           )}
         </div>
-        <div className="button">
+        <div className="page-edit-article-update-button">
           <Button type="primary" onClick={this.handleSubmit}>
             更新
           </Button>

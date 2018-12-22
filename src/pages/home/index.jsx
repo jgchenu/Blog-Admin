@@ -1,20 +1,18 @@
-import React from "react";
-import "./index.less";
-import { connect } from "react-redux";
-@connect(
-  state=>state.admin
-)
+import React from 'react'
+import { connect } from 'react-redux'
+import './index.less'
+@connect(state => state.admin)
 class Home extends React.Component {
-
-  state = {};
+  state = {}
   render() {
     return (
-      <div className="adminHome">
+      <div className="page-home">
         欢迎您，
-        {this.props.userName}
+        {this.props.userName}【博主】
+        <br />^ _ ^
       </div>
-    );
+    )
   }
 }
 
-export default Home;
+export default Home

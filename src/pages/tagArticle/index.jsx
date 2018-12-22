@@ -1,10 +1,10 @@
 import React from 'react'
-import './index.less'
 import MyCard from '@/pages/article/container/myCard'
 import api from '@/lib/api'
 import getParam from '@/lib/getParam'
 import { Pagination } from 'antd'
 import history from '@/router/history'
+import './index.less'
 class Article extends React.Component {
   state = {
     indexList: [],
@@ -24,7 +24,7 @@ class Article extends React.Component {
   loadData = async () => {
     const params = { page: getParam('page') }
     const res = await api.getArticlesByTagName({
-      name: this.state.name,
+      name: encodeURIComponent(this.state.name),
       params
     })
     if (res.data.code === 0) {
@@ -48,13 +48,13 @@ class Article extends React.Component {
   }
   render() {
     return (
-      <div className="home">
-        <div className="lists">
+      <div className="page-tag-article">
+        <div className="page-tag-article-lists">
           {this.state.indexList.map((item, index) => (
             <MyCard list={item} key={index} />
           ))}
         </div>
-        <div className="footer">
+        <div className="page-tag-article-footer">
           <Pagination
             defaultCurrent={parseInt(getParam('page'), 10)}
             total={this.state.allCount}

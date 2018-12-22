@@ -91,8 +91,8 @@ class WriteArticle extends React.Component {
   render() {
     const { tags, inputVisible, inputValue, title } = this.state
     return (
-      <div className="writeArticle">
-        <div className="header">
+      <div className="page-write-article">
+        <div className="page-write-article-header">
           <h2>撰写新文章</h2>
           <Input
             size="large"
@@ -101,10 +101,10 @@ class WriteArticle extends React.Component {
             value={title}
           />
         </div>
-        <div className="content">
+        <div className="page-write-article-content">
           <div ref="editorElem" style={{ textAlign: 'left' }} />
         </div>
-        <div className="addTag">
+        <div className="page-write-article-tags">
           <h2>添加新标签</h2>
           {tags.map(tag => {
             const isLongTag = tag.length > 20
@@ -146,7 +146,7 @@ class WriteArticle extends React.Component {
             </Tag>
           )}
         </div>
-        <div className="button">
+        <div className="page-write-article-submit-button">
           <Button type="primary" onClick={this.handleSubmit}>
             发布
           </Button>

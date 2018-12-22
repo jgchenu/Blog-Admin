@@ -1,5 +1,5 @@
 import React from "react";
-import "./index.less";
+import  './index.less'
 import { Layout, Icon } from "antd";
 import history from "../../router/history";
 import routes from "../../router/routes";
@@ -15,7 +15,7 @@ class MyHeader extends React.Component {
       return history.location.pathname.indexOf(item.path) !== -1;
     });
     return (
-      <Header className="myHeader">
+      <Header className="components-header">
         <Icon
           type="left-circle"
           theme="twoTone"

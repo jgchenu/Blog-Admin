@@ -43,7 +43,7 @@ class MessageBoard extends React.Component {
     }
     this.editor.create()
   }
-  onChange = (page) => {
+  onChange = page => {
     document.scrollingElement.scrollTop = 0
     history.push(`/admin/messageBoard/?page=${page}`)
     this.loadData()
@@ -51,15 +51,20 @@ class MessageBoard extends React.Component {
   handleRenderItem = item => {
     return (
       <div>
-        <List.Item className="comment">
+        <List.Item className="page-board-content-comment">
           <List.Item.Meta
             avatar={<Avatar src={item.sayUser.avatar} />}
-            title={<a>{item.sayUser.userName}{item.sayUser.authority===1?'【博主】':'【用户】'}</a>}
+            title={
+              <a>
+                {item.sayUser.userName}
+                {item.sayUser.authority === 1 ? '【博主】' : '【用户】'}
+              </a>
+            }
             description={
               <div>
                 <div dangerouslySetInnerHTML={{ __html: item.content }} />
                 <div
-                  className="applyButton"
+                  className="page-board-content-apply-button"
                   onClick={() => this.handleApply(item.sayUser, item.id)}
                 >
                   回复
@@ -69,21 +74,31 @@ class MessageBoard extends React.Component {
           />
         </List.Item>
         {item.apply.map((subItem, index) => (
-          <List.Item className="apply" key={index}>
+          <List.Item className="page-board-content-apply" key={index}>
             <List.Item.Meta
               avatar={<Avatar src={subItem.applySayUser.avatar} />}
-              title={<a>{subItem.applySayUser.userName}{subItem.applySayUser.authority===1?'【博主】':'【用户】'}</a>}
+              title={
+                <a>
+                  {subItem.applySayUser.userName}
+                  {subItem.applySayUser.authority === 1
+                    ? '【博主】'
+                    : '【用户】'}
+                </a>
+              }
               description={
                 <div>
                   <strong>
                     @ <Avatar src={subItem.applyToUser.avatar} />
                     &nbsp;
-                    {subItem.applyToUser.userName}{subItem.applyToUser.authority===1?'【博主】':'【用户】'}
+                    {subItem.applyToUser.userName}
+                    {subItem.applyToUser.authority === 1
+                      ? '【博主】'
+                      : '【用户】'}
                     &nbsp;&nbsp;&nbsp;
                   </strong>
                   <div dangerouslySetInnerHTML={{ __html: subItem.content }} />
                   <div
-                    className="applyButton"
+                    className="page-board-content-apply-button"
                     onClick={() =>
                       this.handleApply(subItem.applySayUser, item.id)
                     }
@@ -135,9 +150,9 @@ class MessageBoard extends React.Component {
 
   render() {
     return (
-      <div className="messageBoard">
+      <div className="page-board">
         <h2>我想是时候开个留言板让大家吐槽了:)</h2>
-        <div className="boardContent">
+        <div className="page-board-content">
           <List
             header={<div>评论</div>}
             itemLayout="horizontal"
@@ -145,7 +160,7 @@ class MessageBoard extends React.Component {
             renderItem={this.handleRenderItem}
           />
         </div>
-        <div className="editor">
+        <div className="page-board-editor">
           <Card
             title={
               this.state.applyPerson.userName ? (
@@ -163,7 +178,7 @@ class MessageBoard extends React.Component {
             style={{ width: '100%' }}
           >
             <div ref="editorElem" style={{ textAlign: 'left' }} />
-            <div className="button">
+            <div className="page-board-editor-button">
               <Button type="primary" onClick={this.handleSubmit}>
                 发布
               </Button>
@@ -171,7 +186,7 @@ class MessageBoard extends React.Component {
           </Card>
         </div>
 
-        <div className="footer">
+        <div className="page-board-footer">
           <Pagination
             defaultCurrent={parseInt(1, 10)}
             total={this.state.allCount}

@@ -9,7 +9,6 @@ import reducer from "./reducer";
 // import registerServiceWorker from './registerServiceWorker';
 import './styles/media.less'
 import './styles/editor.less'
-import axios from './axios/index';
 const store = createStore(
     reducer,
     compose(
@@ -17,7 +16,6 @@ const store = createStore(
       window.devToolsExtension ? window.devToolsExtension() : f => f
     )
   );
-React.Component.prototype.$axios=axios;
 ReactDOM.render( 
 <Provider store={store}>
     <Router />

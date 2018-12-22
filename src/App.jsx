@@ -18,13 +18,13 @@ class App extends React.Component {
   }
   render() {
     return (
-      <Layout className="container">
-        <Sider className="left">
+      <Layout className="app-container">
+        <Sider className="app-container-left">
           <NavLeft />
         </Sider>
-        <Layout className="right">
+        <Layout className="app-container-right">
           <MyHeader />
-          <Content className="appContent">
+          <Content className="app-container-right-content">
             {this.props.children}
             <BackTop>
               <div className="ant-back-top-inner">

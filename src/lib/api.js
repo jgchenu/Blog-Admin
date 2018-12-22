@@ -25,6 +25,10 @@ const editArticleById = ({
     method: 'put',
     data
 })
+const deleteArticleById = (id) => axios({
+    url: `/articles/${id}`,
+    method: 'delete'
+})
 //发布评论
 const subComment = ({
     data
@@ -40,8 +44,11 @@ const getBoardComments = (params) => axios({
     params
 })
 //根据标签 名称 获取对应的文章
-const getArticlesByTagName = (tag, params) => axios({
-    url: `/tags/${tag}/articles`,
+const getArticlesByTagName = ({
+    name,
+    params
+}) => axios({
+    url: `/tags/${name}/articles`,
     method: 'get',
     params
 })
@@ -77,6 +84,7 @@ const api = {
     getArticleById,
     editArticleById,
     subArticle,
+    deleteArticleById,
     subComment,
     getBoardComments,
     getArticlesByTagName,

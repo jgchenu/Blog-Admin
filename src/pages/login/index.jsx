@@ -4,7 +4,7 @@ import { Form, Icon, Input, Button } from "antd";
 import { connect } from "react-redux";
 import { login } from "@/redux/admin.redux.js";
 
-const bgImage = "http://test.jgchen.xin/static/blog/2.jpg";
+const bgImage = "http://test.jgchen.xin/blog/bg.jpg";
 const FormItem = Form.Item;
 @connect(
   state => state.admin,
@@ -22,10 +22,10 @@ class Login extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
-      <div className="admin">
-        <img className="loginBg" src={bgImage} alt="背景图片" />
-        <div id="adminLogin">
-          <Form onSubmit={this.handleSubmit} className="login-form">
+      <div className="page-login">
+        <img className="page-login-bg" src={bgImage} alt="背景图片" />
+        <div className="page-login-content">
+          <Form onSubmit={this.handleSubmit} className="page-login-content-form">
             <FormItem>
               {getFieldDecorator("userName", {
                 rules: [{ required: true, message: "请输入用户名" }]
@@ -34,7 +34,7 @@ class Login extends React.Component {
                   prefix={
                     <Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />
                   }
-                  placeholder="Username"
+                  placeholder="用户名"
                 />
               )}
             </FormItem>
@@ -47,7 +47,7 @@ class Login extends React.Component {
                     <Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />
                   }
                   type="password"
-                  placeholder="Password"
+                  placeholder="密码"
                 />
               )}
             </FormItem>
@@ -55,7 +55,7 @@ class Login extends React.Component {
               <Button
                 type="primary"
                 htmlType="submit"
-                className="login-form-button"
+                className="page-login-content-form-button"
               >
                 登录
               </Button>

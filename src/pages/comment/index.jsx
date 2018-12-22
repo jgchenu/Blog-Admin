@@ -12,10 +12,9 @@ class Comment extends React.Component {
       data: []
     }
   }
-  componentWillMount() {
+  componentDidMount() {
     this.loadData()
   }
-
   loadData = async () => {
     const params = { page: getParam('page') }
     const res = await api.getCommentsLinkArticles(params)
@@ -36,7 +35,7 @@ class Comment extends React.Component {
   }
   handleRenderItem = item => {
     return (
-      <List.Item className="comment">
+      <List.Item className="page-comment-content">
         <List.Item.Meta
           avatar={<Avatar src={item.sayUser.avatar} />}
           title={<a>{item.sayUser.userName}</a>}
@@ -44,7 +43,7 @@ class Comment extends React.Component {
             <div>
               <div dangerouslySetInnerHTML={{ __html: item.content }} />
               <div
-                className="articleTitle"
+                className="page-comment-content-title"
                 onClick={() => this.handleToDetail(item.article.id)}
               >
                 <strong>文章:</strong>
@@ -59,14 +58,14 @@ class Comment extends React.Component {
 
   render() {
     return (
-      <div className="myComment">
+      <div className="page-comment">
         <List
           header={null}
           itemLayout="horizontal"
           dataSource={this.state.indexList}
           renderItem={this.handleRenderItem}
         />
-        <div className="footer">
+        <div className="page-comment-footer">
           <Pagination
             defaultCurrent={parseInt(getParam('page'),10)}
             total={this.state.allCount}

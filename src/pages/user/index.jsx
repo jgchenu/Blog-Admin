@@ -77,11 +77,11 @@ class EditUser extends React.Component {
       </div>
     )
     return (
-      <div className="editPerson">
+      <div className="page-user">
         <Upload
           name="avatar"
           listType="picture-card"
-          className="avatar-uploader"
+          className="page-user-upload"
           showUploadList={false}
           action="/api/editAvatar"
           headers={{
@@ -91,15 +91,19 @@ class EditUser extends React.Component {
           onChange={this.handleChange}
         >
           {this.props.avatar ? (
-            <img src={this.props.avatar} alt="avatar" className="ant-upload" />
+            <img
+              src={this.props.avatar}
+              alt="avatar"
+              className="page-user-upload-img"
+            />
           ) : (
             uploadButton
           )}
         </Upload>
-        <div className="content">
+        <div className="page-user-content">
           <div ref="editorElem" style={{ textAlign: 'left' }} />
         </div>
-        <div className="button">
+        <div className="page-user-update-button">
           <Button type="primary" onClick={this.handleSubmit}>
             更新
           </Button>

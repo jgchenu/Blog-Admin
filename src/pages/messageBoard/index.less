@@ -1,11 +1,19 @@
-@import "~@/styles/vars.less";
-.messageBoard {
-    .boardContent {
+@import '~@/styles/vars.less';
+.page-board {
+    .page-board-content {
         margin-top: 1rem;
-        .comment {
+        .page-board-content-comment {
             border-bottom: 1px solid #dddddd;
         }
-        .applyButton {
+        .page-board-content-apply {
+            box-sizing: border-box;
+            padding-left: 40px;
+            border-bottom: 1px solid #e8e8e8;
+            strong {
+                font-weight: bolder;
+            }
+        }
+        .page-board-content-apply-button {
             display: none;
             width: 28px;
             height: 28px;
@@ -17,32 +25,24 @@
             color: #000;
             cursor: pointer;
         }
-        .comment:hover,
-        .apply:hover {
-            .applyButton {
+        .page-board-content-comment:hover,
+        .page-board-content-apply:hover {
+            .page-board-content-apply-button {
                 display: block;
             }
         }
-        .apply {
-            box-sizing: border-box;
-            padding-left: 40px;
-            border-bottom: 1px solid #e8e8e8;
-            strong {
-                font-weight: bolder;
-            }
-        }
     }
-    .editor {
+    .page-board-editor {
         margin-top: 1rem;
         .w-e-toolbar {
             background-color: #ffffff !important;
         }
-        .button {
-            margin-top: .5rem;
+        .page-board-editor-button {
+            margin-top: 0.5rem;
             text-align: center;
         }
     }
-    .footer {
+    .page-board-footer {
         text-align: center;
     }
 }

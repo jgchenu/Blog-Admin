@@ -1,7 +1,7 @@
 import React from "react";
 import { Tag, Badge } from "antd";
 import history from "@/router/history";
-import "./index.less";
+import  './index.less'
 class MyTag extends React.Component {
   tagColors = [
     "magenta",
@@ -32,7 +32,7 @@ class MyTag extends React.Component {
           color: "#999",
           boxShadow: "0 0 0 1px #d9d9d9 inset"
         }}
-        className="singleTag"
+        className="components-tags-single"
         key={index}
         onClick={() => this.goTagArticle(item.name)}
       >
@@ -52,7 +52,7 @@ class MyTag extends React.Component {
     ));
 
   render() {
-    return <div className="myTags">{this.renderTags(this.props.tags)}</div>;
+    return <div className="components-tags">{this.renderTags(this.props.tags)}</div>;
   }
 }
 

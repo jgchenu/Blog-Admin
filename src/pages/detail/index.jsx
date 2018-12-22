@@ -44,7 +44,7 @@ class Detail extends React.Component {
   handleRenderItem = item => {
     return (
       <div>
-        <List.Item className="comment">
+        <List.Item className="page-detail-comments-item">
           <List.Item.Meta
             avatar={<Avatar src={item.sayUser.avatar} />}
             title={<a>{item.sayUser.userName}{item.sayUser.authority===1?'【博主】':'【用户】'}</a>}
@@ -52,7 +52,7 @@ class Detail extends React.Component {
               <div>
                 <div dangerouslySetInnerHTML={{ __html: item.content }} />
                 <div
-                  className="applyButton"
+                  className="page-detail-comments-item-button"
                   onClick={() => this.handleApply(item.sayUser, item.id)}
                 >
                   回复
@@ -62,7 +62,7 @@ class Detail extends React.Component {
           />
         </List.Item>
         {item.apply.map((subItem, index) => (
-          <List.Item className="apply" key={index}>
+          <List.Item className="page-detail-comments-item" key={index}>
             <List.Item.Meta
               avatar={<Avatar src={subItem.applySayUser.avatar} />}
               title={<a>{subItem.applySayUser.userName}{subItem.applySayUser.authority===1?'【博主】':'【用户】'}</a>}
@@ -76,7 +76,7 @@ class Detail extends React.Component {
                   </strong>
                   <div dangerouslySetInnerHTML={{ __html: subItem.content }} />
                   <div
-                    className="applyButton"
+                    className="page-detail-comments-item-button"
                     onClick={() =>
                       this.handleApply(subItem.applySayUser, item.id)
                     }
@@ -133,16 +133,16 @@ class Detail extends React.Component {
     let content =
       this.state.indexList.content && this.state.indexList.content.value
     return (
-      <div id="myDetail">
-        <h2 className="title">{this.state.indexList.title}</h2>
+      <div className="page-detail">
+        <h2 className="page-detail-title">{this.state.indexList.title}</h2>
         <div
-          className="content"
+          className="page-detail-content"
           dangerouslySetInnerHTML={{ __html: content }}
         />
-        <div className="tags">
+        <div className="page-detail-tags">
           <MyTag tags={this.state.indexList.tags} />
         </div>
-        <div className="boardContent">
+        <div className="page-detail-comments">
           <List
             header={<div>评论</div>}
             itemLayout="horizontal"
@@ -150,7 +150,7 @@ class Detail extends React.Component {
             renderItem={this.handleRenderItem}
           />
         </div>
-        <div className="editor">
+        <div className="page-detail-editor">
           <Card
             title={
               this.state.applyPerson.userName ? (
@@ -168,7 +168,7 @@ class Detail extends React.Component {
             style={{ width: '100%' }}
           >
             <div ref="editorElem" style={{ textAlign: 'left' }} />
-            <div className="button">
+            <div className="page-detail-editor-submit-button">
               <Button type="primary" onClick={this.handleSubmit}>
                 发布
               </Button>
