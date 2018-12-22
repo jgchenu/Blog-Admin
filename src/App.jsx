@@ -2,10 +2,9 @@ import React from "react";
 import { Layout, BackTop, Icon } from "antd";
 import NavLeft from "./components/navLeft/index";
 import MyHeader from "./components/header/index";
-import "./styles/App.less";
 import { connect } from "react-redux";
 import { getAdminInfo } from "@/redux/admin.redux.js";
-
+import "./styles/App.less";
 const { Content, Sider } = Layout;
 @connect(
   state => state.admin,
