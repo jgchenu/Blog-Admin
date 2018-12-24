@@ -1,39 +1,45 @@
-@import "./../../styles/vars.less";
-
-.components-avatar-card {
-  text-align: center;
-  height: 128px;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  .components-avatar-card-img {
+@import './../../styles/vars.less';
+.components-nav-left {
+  background-color: @menuBg;
+  .components-avatar-card {
+    text-align: center;
+    height: 128px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    .components-avatar-card-img {
       height: 80px;
       width: 80px;
       border-radius: 50%;
       transition: all 0.5s;
       border: 1px solid @borderColor;
+    }
+    .components-avatar-card-name {
+      color: @primary;
+    }
   }
-  .components-avatar-card-name{
-    color: @primary;
+  .components-nav-left-music {
+    position: absolute;
+    left: -40px;
+    top: 0;
   }
-  @keyframes circle {
-      0% {
-          transform: scale(1);
-      }
-      50%{
-        transform: scale(1.10);
-      }
-      100% {
-          transform: scale(1);
-      }
+  .components-nav-left-music-show {
+    transition: all linear 0.3s;
+    transform: translate(0, 0);
+    opacity: 1;
   }
-  
+  .components-nav-left-music-hide {
+    transition: all linear 0.3s;
+    transform: translate(-800px, 0);
+    opacity: 0;
+  }
 }
+
 //当左边的菜单部分，被鼠标hover 则会使头像跳动
 .components-nav-left:hover {
   .components-avatar-card-img {
-      box-shadow: 0 0 10px #bbbbbb;
-      animation: circle 1.5s infinite linear;
+    box-shadow: 0 0 10px #bbbbbb;
+    animation: circle 1.5s infinite linear;
   }
 }

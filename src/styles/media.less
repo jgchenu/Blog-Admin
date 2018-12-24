@@ -1,13 +1,29 @@
 //关于手机的样式媒体查询覆盖样式
 @media screen and (max-width: 400px) {
-  .app-container {
-    .app-container-left {
-      display: none;
+    .app-container {
+        position: relative; //左边的导航菜单隐藏
+        overflow: hidden;
+        .app-container-left.ant-layout-sider.ant-layout-sider-dark {
+            position: absolute;
+            z-index: 1000;
+            max-width: 90% !important;
+            min-width: 90% !important;
+        }
+        .app-container-left-show-button {
+            display: block;
+        }
+        .app-container-left-show {
+            transition: all linear .3s;
+            transform: translate(0, 0);
+        }
+        .app-container-left-hide {
+            transition: all linear .3s;
+            transform: translate(400px, 0);
+        }
+        .app-container-right {
+            .components-moblie-header {
+                display: block;
+            }
+        }
     }
-    .app-container-right {
-      .components-moblie-header {
-        display: block;
-      }
-    }
-  }
 }
