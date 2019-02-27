@@ -70,7 +70,7 @@ class WriteArticle extends React.Component {
     const data = {
       content: this.state.editorContent,
       title: this.state.title,
-      tags: unique(this.state.tags)
+      tags: unique(this.state.tags).join()
     }
     const res = await api.subArticle(data)
     if (res.data.code === 0) {

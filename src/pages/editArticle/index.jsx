@@ -27,8 +27,8 @@ class WriteArticle extends React.Component {
       this.setState(
         {
           editorContent: (data.content && data.content.value) || '',
-          tags: data.tags.map(item => item.name),
-          title: data.title
+          tags: (data.tag&&data.tag.name.split(','))||[],
+          title: data.title||''
         },
         () => {
           this.editor.txt.html(this.state.editorContent)
@@ -69,7 +69,7 @@ class WriteArticle extends React.Component {
     const data = {
       content: this.state.editorContent,
       title: this.state.title,
-      tags: unique(this.state.tags)
+      tags: unique(this.state.tags).join()
     }
     const id = this.state.id
     const res = await api.editArticleById({ id, data })

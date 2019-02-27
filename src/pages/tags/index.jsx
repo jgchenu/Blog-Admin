@@ -16,10 +16,35 @@ class Archive extends React.Component {
       })
     }
   }
+  //转为数组元素并且去重统计数量
+  handleTagAndCount=(tags)=>{
+    let arr=[];
+    tags.forEach(item=>{
+      arr=arr.concat(item.name.split(','))
+    })
+    let newTags={};
+    for(let i=0;i<arr.length;i++){
+      if(newTags[arr[i]]){
+        newTags[arr[i]]++;
+      }else{
+        newTags[arr[i]]=1;
+      }
+    }
+    arr=[];
+    for(let key in newTags){
+      if(newTags.hasOwnProperty(key)){
+        arr.push({
+          name:key,
+          count:~~(newTags[key])
+        })
+      }
+    }
+    return arr;
+  }
   render() {
     return (
       <div>
-        <MyTag tags={this.state.tags} />
+        <MyTag tags={this.handleTagAndCount(this.state.tags)} />
       </div>
     )
   }

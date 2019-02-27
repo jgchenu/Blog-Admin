@@ -30,6 +30,15 @@ class Detail extends React.Component {
       })
     }
   }
+  handleTag=(tag)=>{
+    let arr=(tag&&tag.name&&tag.name.split(','))||[];
+    arr=arr.map(item=>{
+      return {
+        name:item
+      }
+    })
+    return arr;
+  }
   initEdit = () => {
     const elem = this.refs.editorElem
     this.editor = new E(elem)
@@ -140,7 +149,7 @@ class Detail extends React.Component {
           dangerouslySetInnerHTML={{ __html: content }}
         />
         <div className="page-detail-tags">
-          <MyTag tags={this.state.indexList.tags} />
+          <MyTag tags={this.handleTag(this.state.indexList.tag)} />
         </div>
         <div className="page-detail-comments">
           <List

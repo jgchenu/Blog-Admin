@@ -3,7 +3,7 @@ import history from "@/router/history";
 class MyRedirect extends React.Component {
   state = {};
   auth = () => {
-    history.push("/admin/home");
+    history.push("/home");
   };
   render() {
     this.auth();
