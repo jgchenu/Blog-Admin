@@ -4,7 +4,7 @@ import { Form, Icon, Input, Button } from "antd";
 import { connect } from "react-redux";
 import { login } from "@/redux/admin.redux.js";
 
-const bgImage = "http://test.jgchen.xin/blog/bg.jpg";
+const bgImage = "https://raw.githubusercontent.com/jgchenu/staticAssets/master/bg.jpg";
 const FormItem = Form.Item;
 @connect(
   state => state.admin,
